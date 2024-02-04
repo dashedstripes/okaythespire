@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include "card.h"
+#include "deck.h"
 
 int main()
 {
@@ -37,16 +38,22 @@ int main()
     return -1;
   }
 
-  Card cards[2] = {
-    {1, 200, 200},
-    {2, 400, 200}
-  };
-
   SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 
   SDL_Event e;
   int quit = 0;
   Uint32 lastTick = SDL_GetTicks();
+
+  Deck myDeck;
+  Deck_Init(&myDeck, 6);
+
+  Card cardOne;
+  Card_Init(&cardOne, 0);
+  Card cardTwo;
+  Card_Init(&cardTwo, 1);
+
+  Deck_AddCard(&myDeck, &cardOne, 0);
+  Deck_AddCard(&myDeck, &cardTwo, 1);
 
   while (!quit)
   {
@@ -66,14 +73,6 @@ int main()
           if (e.button.button == SDL_BUTTON_LEFT)
           {
             // printf("Left mouse button pressed at (%d, %d)\n", e.button.x, e.button.y);
-
-            // check if the mouse click was inside a card
-            for(int i = 0; i < 2; i++) {
-              if (Card_Intersect(&cards[i], e.button.x, e.button.y))
-              {
-                printf("Clicked on card %i!\n", cards[i].id);
-              }  
-            }
           }
           break;
         case SDL_KEYDOWN:
@@ -90,9 +89,7 @@ int main()
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    for(int i = 0; i < 2; i++) {
-      Card_Render(renderer, &cards[i]);
-    }
+    Deck_Render(renderer, &myDeck);
 
     SDL_RenderPresent(renderer);
 
