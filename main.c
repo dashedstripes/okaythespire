@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include "card.h"
 
 int main()
 {
@@ -45,6 +46,8 @@ int main()
   int x = 200;
   int y = 150;
   int vx, vy;
+
+  Card card = {x, y, 100, 150};
 
   Uint32 lastTick = SDL_GetTicks(); // consider using SDL_GetTicks64 later
 
@@ -94,9 +97,7 @@ int main()
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    SDL_Rect rect = {x += vx * deltaTime, y, 240, 180};
-    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-    SDL_RenderFillRect(renderer, &rect);
+    Card_Render(renderer, &card);
 
     SDL_RenderPresent(renderer);
 
