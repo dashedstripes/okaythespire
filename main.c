@@ -5,8 +5,8 @@
 int main()
 {
 
-  int SCREEN_WIDTH = 1280;
-  int SCREEN_HEIGHT = 720;
+  int SCREEN_WIDTH = 640;
+  int SCREEN_HEIGHT = 480;
 
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
   {
@@ -37,24 +37,20 @@ int main()
     return -1;
   }
 
+  Card card = {200, 200, 200, 150};
 
   SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 
   SDL_Event e;
   int quit = 0;
-
-  int x = 200;
-  int y = 150;
-  int vx, vy;
-
-  Card card = {x, y, 100, 150};
-
-  Uint32 lastTick = SDL_GetTicks(); // consider using SDL_GetTicks64 later
+  Uint32 lastTick = SDL_GetTicks();
 
   while (!quit)
   {
     Uint32 currentTick = SDL_GetTicks();
-    float deltaTime = currentTick - lastTick;
+    float deltaTime = (currentTick - lastTick) / 1000.0f; // time in seconds
+
+    // printf("Delta time: %f\n", deltaTime);
 
     while (SDL_PollEvent(&e) != 0)
     {
@@ -63,34 +59,26 @@ int main()
         case SDL_QUIT:
           quit = 1;
           break;
+        case SDL_MOUSEBUTTONDOWN:
+          if (e.button.button == SDL_BUTTON_LEFT)
+          {
+            // printf("Left mouse button pressed at (%d, %d)\n", e.button.x, e.button.y);
+
+            // check if the mouse click was inside the card
+            if (Card_Intersect(&card, e.button.x, e.button.y))
+            {
+              printf("Clicked on the card!\n");
+            }
+          }
+          break;
         case SDL_KEYDOWN:
           switch(e.key.keysym.sym)
           {
             case SDLK_ESCAPE:
               quit = 1;
               break;
-            case SDLK_a:
-              vx = -1;
-              // printf("A key pressed\n");
-              break;
-            case SDLK_d:
-              vx = 1;
-              // printf("D key pressed\n");
-              break;
           }
           break;
-          case SDL_KEYUP:
-            switch(e.key.keysym.sym)
-            {
-              case SDLK_a:
-                vx = 0;
-                // printf("A key released\n");
-              case SDLK_d:
-                vx = 0;
-                // printf("D key released\n");
-                break;
-            }
-            break;
       }
     }
 
@@ -102,7 +90,6 @@ int main()
     SDL_RenderPresent(renderer);
 
     lastTick = currentTick;
-    printf("FPS: %f\n", 1000.0f / deltaTime);
   }
 
   printf("Quitting...\n");

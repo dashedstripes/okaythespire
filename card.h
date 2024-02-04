@@ -8,3 +8,4 @@ typedef struct {
 } Card;
 
 void Card_Render(SDL_Renderer *renderer, Card *card);
+int Card_Intersect(Card *card, int x, int y);
