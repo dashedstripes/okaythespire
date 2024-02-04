@@ -37,7 +37,10 @@ int main()
     return -1;
   }
 
-  Card card = {200, 200, 200, 150};
+  Card cards[2] = {
+    {1, 200, 200},
+    {2, 400, 200}
+  };
 
   SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 
@@ -64,10 +67,12 @@ int main()
           {
             // printf("Left mouse button pressed at (%d, %d)\n", e.button.x, e.button.y);
 
-            // check if the mouse click was inside the card
-            if (Card_Intersect(&card, e.button.x, e.button.y))
-            {
-              printf("Clicked on the card!\n");
+            // check if the mouse click was inside a card
+            for(int i = 0; i < 2; i++) {
+              if (Card_Intersect(&cards[i], e.button.x, e.button.y))
+              {
+                printf("Clicked on card %i!\n", cards[i].id);
+              }  
             }
           }
           break;
@@ -85,7 +90,9 @@ int main()
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    Card_Render(renderer, &card);
+    for(int i = 0; i < 2; i++) {
+      Card_Render(renderer, &cards[i]);
+    }
 
     SDL_RenderPresent(renderer);
 
