@@ -31,7 +31,7 @@ int Deck_AddCard(Deck *deck, Card *card, int index)
     return -1;
   }
 
-  card->x = index * (deck->x + card->w + DECK_MARGIN);
+  card->x = deck->x + (card->w * index) + (DECK_MARGIN * index);  
   card->y = deck->y;
 
   deck->cards[index] = card;
