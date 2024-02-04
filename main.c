@@ -73,6 +73,13 @@ int main()
           if (e.button.button == SDL_BUTTON_LEFT)
           {
             // printf("Left mouse button pressed at (%d, %d)\n", e.button.x, e.button.y);
+            for (int i = 0; i < myDeck.size; i++)
+            {
+              if (Card_Intersect(myDeck.cards[i], e.button.x, e.button.y))
+              {
+                printf("Card %d clicked\n", myDeck.cards[i]->id);
+              }
+            }
           }
           break;
         case SDL_KEYDOWN:

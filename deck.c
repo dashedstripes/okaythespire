@@ -18,7 +18,7 @@ int Deck_Init(Deck *deck, int max_size)
 
 
   for (int i = 0; i < max_size; i++) {
-    deck->cards[i] = NULL; // Assign some value, e.g., i * 2
+    deck->cards[i] = NULL;
   }
 
   return 0;

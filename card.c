@@ -15,7 +15,6 @@ int Card_Init(Card *card, int id)
 }
 
 void Card_Render(SDL_Renderer *renderer, Card *card) {
-  printf("Rendering card at %d, %d\n", card->x, card->y);
   SDL_Rect rect = {card->x, card->y, CARD_WIDTH, CARD_HEIGHT};
   SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
   SDL_RenderFillRect(renderer, &rect);
