@@ -2,6 +2,9 @@
 
 #include <SDL2/SDL.h>
 
+extern const int CARD_WIDTH;
+extern const int CARD_HEIGHT;
+
 typedef struct {
   int id;
   int x;
