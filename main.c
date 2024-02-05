@@ -1,5 +1,5 @@
 #include "card.h"
-#include "deck.h"
+#include "hand.h"
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
@@ -38,8 +38,8 @@ int main() {
   int quit = 0;
   Uint32 lastTick = SDL_GetTicks();
 
-  Deck myDeck;
-  Deck_Init(&myDeck, 6, (SCREEN_WIDTH / 2) - (((CARD_WIDTH * 5) + (DECK_MARGIN * 4)) / 2), SCREEN_HEIGHT - CARD_HEIGHT - DECK_MARGIN);
+  Hand myHand;
+  Hand_Init(&myHand, 6, (SCREEN_WIDTH / 2) - (((CARD_WIDTH * 5) + (HAND_MARGIN * 4)) / 2), SCREEN_HEIGHT - CARD_HEIGHT - HAND_MARGIN);
 
   Card cardOne;
   Card_Init(&cardOne, 0, AttackCard);
@@ -52,11 +52,11 @@ int main() {
   Card cardFive;
   Card_Init(&cardFive, 4, BlockCard);
 
-  Deck_AddCard(&myDeck, &cardOne, 0);
-  Deck_AddCard(&myDeck, &cardTwo, 1);
-  Deck_AddCard(&myDeck, &cardThree, 2);
-  Deck_AddCard(&myDeck, &cardFour, 3);
-  Deck_AddCard(&myDeck, &cardFive, 4);
+  Hand_AddCard(&myHand, &cardOne, 0);
+  Hand_AddCard(&myHand, &cardTwo, 1);
+  Hand_AddCard(&myHand, &cardThree, 2);
+  Hand_AddCard(&myHand, &cardFour, 3);
+  Hand_AddCard(&myHand, &cardFive, 4);
 
   while (!quit) {
     Uint32 currentTick = SDL_GetTicks();
@@ -73,9 +73,9 @@ int main() {
         if (e.button.button == SDL_BUTTON_LEFT) {
           // printf("Left mouse button pressed at (%d, %d)\n", e.button.x,
           // e.button.y);
-          for (int i = 0; i < myDeck.size; i++) {
-            if (Card_Intersect(myDeck.cards[i], e.button.x, e.button.y)) {
-              printf("Card %d clicked\n", myDeck.cards[i]->id);
+          for (int i = 0; i < myHand.size; i++) {
+            if (Card_Intersect(myHand.cards[i], e.button.x, e.button.y)) {
+              printf("Card %d clicked\n", myHand.cards[i]->id);
             }
           }
         }
@@ -93,7 +93,7 @@ int main() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    Deck_Render(renderer, &myDeck);
+    Hand_Render(renderer, &myHand);
 
     SDL_RenderPresent(renderer);
 
@@ -102,7 +102,7 @@ int main() {
 
   printf("Quitting...\n");
 
-  Deck_Cleanup(&myDeck);
+  Hand_Cleanup(&myHand);
 
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
