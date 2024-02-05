@@ -1,5 +1,6 @@
 #include "card.h"
 #include "hand.h"
+#include "deck.h"
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
@@ -38,9 +39,6 @@ int main() {
   int quit = 0;
   Uint32 lastTick = SDL_GetTicks();
 
-  Hand myHand;
-  Hand_Init(&myHand, 6, (SCREEN_WIDTH / 2) - (((CARD_WIDTH * 5) + (HAND_MARGIN * 4)) / 2), SCREEN_HEIGHT - CARD_HEIGHT - HAND_MARGIN);
-
   Card cardOne;
   Card_Init(&cardOne, 0, AttackCard);
   Card cardTwo;
@@ -52,11 +50,23 @@ int main() {
   Card cardFive;
   Card_Init(&cardFive, 4, BlockCard);
 
-  Hand_AddCard(&myHand, &cardOne, 0);
-  Hand_AddCard(&myHand, &cardTwo, 1);
-  Hand_AddCard(&myHand, &cardThree, 2);
-  Hand_AddCard(&myHand, &cardFour, 3);
-  Hand_AddCard(&myHand, &cardFive, 4);
+  // make a deck of cards (this is like global deck)
+  Deck deck;
+  Deck_Init(&deck, 1);
+  Deck_AddCard(&deck, &cardOne, 0);
+  Deck_AddCard(&deck, &cardTwo, 1);
+  Deck_AddCard(&deck, &cardThree, 2);
+  Deck_AddCard(&deck, &cardFour, 3);
+  Deck_AddCard(&deck, &cardFive, 4);
+
+  Hand hand;
+  Hand_Init(&hand, 6, (SCREEN_WIDTH / 2) - (((CARD_WIDTH * 5) + (HAND_MARGIN * 4)) / 2), SCREEN_HEIGHT - CARD_HEIGHT - HAND_MARGIN);
+
+  Hand_AddCard(&hand, &cardOne, 0);
+  Hand_AddCard(&hand, &cardTwo, 1);
+  Hand_AddCard(&hand, &cardThree, 2);
+  Hand_AddCard(&hand, &cardFour, 3);
+  Hand_AddCard(&hand, &cardFive, 4);
 
   while (!quit) {
     Uint32 currentTick = SDL_GetTicks();
@@ -73,9 +83,9 @@ int main() {
         if (e.button.button == SDL_BUTTON_LEFT) {
           // printf("Left mouse button pressed at (%d, %d)\n", e.button.x,
           // e.button.y);
-          for (int i = 0; i < myHand.size; i++) {
-            if (Card_Intersect(myHand.cards[i], e.button.x, e.button.y)) {
-              printf("Card %d clicked\n", myHand.cards[i]->id);
+          for (int i = 0; i < hand.size; i++) {
+            if (Card_Intersect(hand.cards[i], e.button.x, e.button.y)) {
+              printf("Card %d clicked, its type %d\n", hand.cards[i]->id, hand.cards[i]->type);
             }
           }
         }
@@ -93,7 +103,7 @@ int main() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    Hand_Render(renderer, &myHand);
+    Hand_Render(renderer, &hand);
 
     SDL_RenderPresent(renderer);
 
@@ -102,7 +112,7 @@ int main() {
 
   printf("Quitting...\n");
 
-  Hand_Cleanup(&myHand);
+  Hand_Cleanup(&hand);
 
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
