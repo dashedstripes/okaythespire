@@ -112,6 +112,7 @@ int main() {
 
   printf("Quitting...\n");
 
+  Deck_Cleanup(&deck);
   Hand_Cleanup(&hand);
 
   SDL_DestroyRenderer(renderer);

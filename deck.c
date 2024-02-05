@@ -30,3 +30,12 @@ int Deck_AddCard(Deck* deck, Card* card, int index)
   deck->size++;
   return 0;
 }
+
+int Deck_Cleanup(Deck* deck)
+{
+  if(deck->cards != NULL)
+  {
+    free(deck->cards);
+  }
+  return 0;
+}
