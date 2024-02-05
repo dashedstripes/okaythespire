@@ -41,3 +41,9 @@ void Deck_Render(SDL_Renderer *renderer, Deck *deck) {
     Card_Render(renderer, deck->cards[i]);
   }
 }
+
+int Deck_Cleanup(Deck *deck) 
+{
+  free(deck->cards);
+  return 0;
+}

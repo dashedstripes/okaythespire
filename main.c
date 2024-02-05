@@ -101,6 +101,9 @@ int main() {
   }
 
   printf("Quitting...\n");
+
+  Deck_Cleanup(&myDeck);
+
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();
