@@ -42,15 +42,15 @@ int main() {
   Deck_Init(&myDeck, 6, (SCREEN_WIDTH / 2) - (((CARD_WIDTH * 5) + (DECK_MARGIN * 4)) / 2), SCREEN_HEIGHT - CARD_HEIGHT - DECK_MARGIN);
 
   Card cardOne;
-  Card_Init(&cardOne, 0);
+  Card_Init(&cardOne, 0, AttackCard);
   Card cardTwo;
-  Card_Init(&cardTwo, 1);
+  Card_Init(&cardTwo, 1, AttackCard);
   Card cardThree;
-  Card_Init(&cardThree, 2);
+  Card_Init(&cardThree, 2, AttackCard);
   Card cardFour;
-  Card_Init(&cardFour, 3);
+  Card_Init(&cardFour, 3, BlockCard);
   Card cardFive;
-  Card_Init(&cardFive, 4);
+  Card_Init(&cardFive, 4, BlockCard);
 
   Deck_AddCard(&myDeck, &cardOne, 0);
   Deck_AddCard(&myDeck, &cardTwo, 1);

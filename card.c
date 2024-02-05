@@ -4,13 +4,14 @@
 const int CARD_WIDTH = 150;
 const int CARD_HEIGHT = 200;
 
-int Card_Init(Card *card, int id) 
+int Card_Init(Card *card, int id, enum CardType type) 
 {
   card->id = id;
   card->x = 0;
   card->y = 0;
   card->w = CARD_WIDTH;
   card->h = CARD_HEIGHT;
+  card->type = type;
   return 0;
 }
 
