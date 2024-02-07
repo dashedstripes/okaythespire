@@ -1,6 +1,8 @@
 #include "card.h"
 #include "hand.h"
 #include "deck.h"
+#include "player.h"
+#include "enemy.h"
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
@@ -39,28 +41,40 @@ int main() {
   int quit = 0;
   Uint32 lastTick = SDL_GetTicks();
 
+  // all the cards available in game
   Card cardOne;
-  Card_Init(&cardOne, 0, AttackCard);
+  Card_Init(&cardOne, 0, ATTACK_CARD, 1);
   Card cardTwo;
-  Card_Init(&cardTwo, 1, AttackCard);
+  Card_Init(&cardTwo, 1, ATTACK_CARD, 2);
   Card cardThree;
-  Card_Init(&cardThree, 2, AttackCard);
+  Card_Init(&cardThree, 2, ATTACK_CARD, 3);
   Card cardFour;
-  Card_Init(&cardFour, 3, BlockCard);
+  Card_Init(&cardFour, 3, BLOCK_CARD, 1);
   Card cardFive;
-  Card_Init(&cardFive, 4, BlockCard);
+  Card_Init(&cardFive, 4, BLOCK_CARD, 2);
 
-  // make a deck of cards (this is like global deck)
-  Deck deck;
-  Deck_Init(&deck, 1);
-  Deck_AddCard(&deck, &cardOne, 0);
-  Deck_AddCard(&deck, &cardTwo, 1);
-  Deck_AddCard(&deck, &cardThree, 2);
-  Deck_AddCard(&deck, &cardFour, 3);
-  Deck_AddCard(&deck, &cardFive, 4);
+  // init player
+
+  Player player;
+  Player_Init(&player);
+
+  // init enemy (just one for now)
+
+  Enemy enemy;
+  Enemy_Init(&enemy);
+
+
+  // make a deck of cards for the player
+  Deck playerDeck;
+  Deck_Init(&playerDeck, 1);
+  Deck_AddCard(&playerDeck, &cardOne, 0);
+  Deck_AddCard(&playerDeck, &cardTwo, 1);
+  Deck_AddCard(&playerDeck, &cardThree, 2);
+  Deck_AddCard(&playerDeck, &cardFour, 3);
+  Deck_AddCard(&playerDeck, &cardFive, 4);
 
   Hand hand;
-  Hand_Init(&hand, 6, (SCREEN_WIDTH / 2) - (((CARD_WIDTH * 5) + (HAND_MARGIN * 4)) / 2), SCREEN_HEIGHT - CARD_HEIGHT - 20);
+  Hand_Init(&hand, 6);
 
   Hand_AddCard(&hand, &cardOne, 0);
   Hand_AddCard(&hand, &cardTwo, 1);
@@ -81,12 +95,10 @@ int main() {
         break;
       case SDL_MOUSEBUTTONDOWN:
         if (e.button.button == SDL_BUTTON_LEFT) {
-          // printf("Left mouse button pressed at (%d, %d)\n", e.button.x,
-          // e.button.y);
           for (int i = 0; i < hand.size; i++) {
-            if (Card_Intersect(hand.cards[i], e.button.x, e.button.y)) {
-              printf("Card %d clicked, its type %d\n", hand.cards[i]->id, hand.cards[i]->type);
-            }
+            // if (Card_Intersect(hand.cards[i], e.button.x, e.button.y, )) {
+            //   printf("Card %d clicked, its type %d\n", hand.cards[i]->id, hand.cards[i]->type);
+            // }
           }
         }
         break;
@@ -103,7 +115,7 @@ int main() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    Hand_Render(renderer, &hand);
+    Hand_Render(renderer, &hand, (SCREEN_WIDTH / 2) - (((CARD_WIDTH * 5) + (HAND_MARGIN * 4)) / 2), SCREEN_HEIGHT - CARD_HEIGHT - 20);
 
     SDL_RenderPresent(renderer);
 
@@ -112,7 +124,7 @@ int main() {
 
   printf("Quitting...\n");
 
-  Deck_Cleanup(&deck);
+  Deck_Cleanup(&playerDeck);
   Hand_Cleanup(&hand);
 
   SDL_DestroyRenderer(renderer);

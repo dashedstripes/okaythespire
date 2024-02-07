@@ -1,4 +1,5 @@
-#pragma once
+#ifndef HAND_H
+#define HAND_H
 
 #include "card.h"
 
@@ -8,11 +9,12 @@ typedef struct {
   Card **cards;
   int size;
   int max_size;
-  int x;
-  int y;
 } Hand;
 
-int Hand_Init(Hand *hand, int max_size, int x, int y);
+int Hand_Init(Hand *hand, int max_size);
 int Hand_AddCard(Hand *hand, Card *card, int index);
-void Hand_Render(SDL_Renderer *renderer, Hand *hand);
+int Hand_RemoveCard(Hand *hand, int index);
+void Hand_Render(SDL_Renderer *renderer, Hand *hand, int x, int y);
 int Hand_Cleanup(Hand *hand);
+
+#endif
