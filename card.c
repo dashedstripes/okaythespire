@@ -9,9 +9,16 @@ int Card_Init(Card *card, int id, enum CardType type, int value)
   return 0;
 }
 
-void Card_Render(SDL_Renderer *renderer, Card *card, int x, int y) {
+void Card_Render(SDL_Renderer *renderer, Card *card, int x, int y, int is_active) 
+{
   SDL_Rect rect = {x, y, CARD_WIDTH, CARD_HEIGHT};
-  SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+
+  if (is_active) {
+    SDL_SetRenderDrawColor(renderer, 100, 0, 255, 255);
+  } else {
+    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+  }
+
   SDL_RenderFillRect(renderer, &rect);
 }
 

@@ -1,5 +1,6 @@
 #include "hand.h"
 #include "card.h"
+#include "screen.h"
 
 int Hand_Init(Hand *hand, int max_size) {
   hand->size = 0;
@@ -41,9 +42,25 @@ int Hand_RemoveCard(Hand *hand, int index)
   return 0;
 }
 
+int Hand_MakeActive(Hand *hand, int index)
+{
+  if (index + 1 > hand->max_size) {
+    return -1;
+  }
+
+  hand->activeCard = hand->cards[index];
+  return 0;
+}
+
+int Hand_MakeInactive(Hand *hand)
+{
+  hand->activeCard = NULL;
+  return 0;
+}
+
 void Hand_Render(SDL_Renderer *renderer, Hand *hand, int x, int y) {
   for (int i = 0; i < hand->size; i++) {
-    Card_Render(renderer, hand->cards[i], x + (CARD_WIDTH * i) + (HAND_MARGIN * i), y);
+    Card_Render(renderer, hand->cards[i], x + (CARD_WIDTH * i) + (HAND_MARGIN * i), y, hand->cards[i] == hand->activeCard);
   }
 }
 

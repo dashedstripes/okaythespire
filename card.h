@@ -22,7 +22,7 @@ typedef struct {
 } Card;
 
 int Card_Init(Card *card, int id, enum CardType type, int value);
-void Card_Render(SDL_Renderer *renderer, Card *card, int x, int y);
+void Card_Render(SDL_Renderer *renderer, Card *card, int x, int y, int is_active);
 int Card_Intersect(Card *card, int x, int y, int cardX, int cardY);
 
 #endif
