@@ -1,5 +1,5 @@
 CC=gcc
-SRC=main.c card.c hand.c deck.c player.c enemy.c
+SRC=main.c card.c hand.c deck.c player.c enemy.c level.c
 
 compile:
 	$(CC) $(SRC) -F /Library/Frameworks -framework SDL2 -o bin/main.out -rpath /Library/Frameworks

@@ -3,11 +3,10 @@
 #include "deck.h"
 #include "player.h"
 #include "enemy.h"
+#include "level.h"
+#include "screen.h"
 #include <SDL2/SDL.h>
 #include <stdio.h>
-
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
 
 int main() {
 
@@ -53,16 +52,9 @@ int main() {
   Card cardFive;
   Card_Init(&cardFive, 4, BLOCK_CARD, 2);
 
-  // init player
-
-  Player player;
-  Player_Init(&player);
-
   // init enemy (just one for now)
-
   Enemy enemy;
   Enemy_Init(&enemy);
-
 
   // make a deck of cards for the player
   Deck playerDeck;
@@ -82,11 +74,18 @@ int main() {
   Hand_AddCard(&hand, &cardFour, 3);
   Hand_AddCard(&hand, &cardFive, 4);
 
+  // set up player
+  Player player;
+  Player_Init(&player, &playerDeck, &hand);
+
+  // set up a level (i.e a fight):
+
+  Level level;
+  Level_Init(&level, &enemy, &player);
+
   while (!quit) {
     Uint32 currentTick = SDL_GetTicks();
     float deltaTime = (currentTick - lastTick) / 1000.0f; // time in seconds
-
-    // printf("Delta time: %f\n", deltaTime);
 
     while (SDL_PollEvent(&e) != 0) {
       switch (e.type) {
@@ -95,11 +94,7 @@ int main() {
         break;
       case SDL_MOUSEBUTTONDOWN:
         if (e.button.button == SDL_BUTTON_LEFT) {
-          for (int i = 0; i < hand.size; i++) {
-            // if (Card_Intersect(hand.cards[i], e.button.x, e.button.y, )) {
-            //   printf("Card %d clicked, its type %d\n", hand.cards[i]->id, hand.cards[i]->type);
-            // }
-          }
+          Level_HandleClick(&level, e.button.x, e.button.y);
         }
         break;
       case SDL_KEYDOWN:
@@ -115,7 +110,7 @@ int main() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    Hand_Render(renderer, &hand, (SCREEN_WIDTH / 2) - (((CARD_WIDTH * 5) + (HAND_MARGIN * 4)) / 2), SCREEN_HEIGHT - CARD_HEIGHT - 20);
+    Level_Render(renderer, &level);
 
     SDL_RenderPresent(renderer);
 

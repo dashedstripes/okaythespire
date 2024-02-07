@@ -15,7 +15,7 @@ typedef struct {
   int energy;
 } Player;
 
-int Player_Init(Player *player);
+int Player_Init(Player *player, Deck *deck, Hand *hand);
 int Player_UseCard(Player *player, int cardIndex, Enemy *enemy);
 
 #endif

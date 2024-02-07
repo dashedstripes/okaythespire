@@ -4,10 +4,10 @@
 #include "deck.h"
 #include "card.h"
 
-int Player_Init(Player *player) 
+int Player_Init(Player *player, Deck *deck, Hand *hand) 
 {
-  player->deck = NULL;
-  player->hand = NULL;
+  player->deck = deck;
+  player->hand = hand;
   player->health = PLAYER_INITIAL_HEALTH;
   player->energy = PLAYER_INITIAL_ENERGY;
   return 0;
