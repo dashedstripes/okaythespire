@@ -34,7 +34,7 @@ int main() {
     return -1;
   }
 
-  SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+  SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" );
 
   SDL_Event e;
   int quit = 0;
@@ -42,23 +42,23 @@ int main() {
 
   // all the cards available in game
   Card cardOne;
-  Card_Init(&cardOne, 0, ATTACK_CARD, 1, "res/cards/image.png");
+  Card_Init(&cardOne, 0, ATTACK_CARD, 1, "res/cards/gun.jpg");
   Card_LoadTexture(renderer, &cardOne);
 
   Card cardTwo;
-  Card_Init(&cardTwo, 1, ATTACK_CARD, 2, "res/cards/image.png");
+  Card_Init(&cardTwo, 1, ATTACK_CARD, 2, "res/cards/dagger.jpg");
   Card_LoadTexture(renderer, &cardTwo);
 
   Card cardThree;
-  Card_Init(&cardThree, 2, ATTACK_CARD, 3, "res/cards/image.png");
+  Card_Init(&cardThree, 2, ATTACK_CARD, 3, "res/cards/placeholder.png");
   Card_LoadTexture(renderer, &cardThree);
 
   Card cardFour;
-  Card_Init(&cardFour, 3, BLOCK_CARD, 1, "res/cards/image.png");
+  Card_Init(&cardFour, 3, BLOCK_CARD, 1, "res/cards/placeholder.png");
   Card_LoadTexture(renderer, &cardFour);
 
   Card cardFive;
-  Card_Init(&cardFive, 4, BLOCK_CARD, 2, "res/cards/image.png");
+  Card_Init(&cardFive, 4, BLOCK_CARD, 2, "res/cards/placeholder.png");
   Card_LoadTexture(renderer, &cardFive);
 
   // init enemy (just one for now)
