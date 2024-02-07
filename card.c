@@ -14,6 +14,7 @@ int Card_Init(Card *card, int id, enum CardType type, int value, char *texturePa
 int Card_LoadTexture(SDL_Renderer *renderer, Card *card) 
 {
   SDL_Surface* imageSurface = IMG_Load(card->texturePath);
+  SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
   card->texture = SDL_CreateTextureFromSurface(renderer, imageSurface);
   SDL_FreeSurface(imageSurface);
   return 0;

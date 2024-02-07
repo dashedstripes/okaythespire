@@ -34,8 +34,6 @@ int main() {
     return -1;
   }
 
-  SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" );
-
   SDL_Event e;
   int quit = 0;
   Uint32 lastTick = SDL_GetTicks();
