@@ -36,7 +36,6 @@ int Player_UseCard(Player *player, int cardIndex, Enemy *enemy)
   }
 
   player->energy -= 1;
-  Hand_RemoveCard(player->hand, cardIndex);
   return 0;
 }
 

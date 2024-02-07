@@ -30,18 +30,6 @@ int Hand_AddCard(Hand *hand, Card *card, int index) {
   return 0;
 }
 
-int Hand_RemoveCard(Hand *hand, int index) 
-{
-  if (index + 1 > hand->max_size) {
-    return -1;
-  }
-
-  hand->cards[index] = NULL;
-  hand->size--;
-
-  return 0;
-}
-
 int Hand_MakeActive(Hand *hand, int index)
 {
   if (index + 1 > hand->max_size) {
