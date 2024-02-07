@@ -1,9 +1,6 @@
 #include <SDL2/SDL.h>
 #include "card.h"
 
-const int CARD_WIDTH = 150;
-const int CARD_HEIGHT = 200;
-
 int Card_Init(Card *card, int id, enum CardType type) 
 {
   card->id = id;

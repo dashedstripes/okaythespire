@@ -4,10 +4,10 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
-int main() {
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 720
 
-  int SCREEN_WIDTH = 1280;
-  int SCREEN_HEIGHT = 720;
+int main() {
 
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -60,7 +60,7 @@ int main() {
   Deck_AddCard(&deck, &cardFive, 4);
 
   Hand hand;
-  Hand_Init(&hand, 6, (SCREEN_WIDTH / 2) - (((CARD_WIDTH * 5) + (HAND_MARGIN * 4)) / 2), SCREEN_HEIGHT - CARD_HEIGHT - HAND_MARGIN);
+  Hand_Init(&hand, 6, (SCREEN_WIDTH / 2) - (((CARD_WIDTH * 5) + (HAND_MARGIN * 4)) / 2), SCREEN_HEIGHT - CARD_HEIGHT - 20);
 
   Hand_AddCard(&hand, &cardOne, 0);
   Hand_AddCard(&hand, &cardTwo, 1);

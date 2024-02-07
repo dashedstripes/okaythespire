@@ -2,7 +2,7 @@
 
 #include "card.h"
 
-extern const int HAND_MARGIN;
+#define HAND_MARGIN 20
 
 typedef struct {
   Card **cards;

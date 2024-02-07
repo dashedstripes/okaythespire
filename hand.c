@@ -1,8 +1,6 @@
 #include "hand.h"
 #include "card.h"
 
-const int HAND_MARGIN = 20;
-
 int Hand_Init(Hand *hand, int max_size, int x, int y) {
   hand->size = 0;
   hand->x = x;

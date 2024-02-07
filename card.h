@@ -2,8 +2,8 @@
 
 #include <SDL2/SDL.h>
 
-extern const int CARD_WIDTH;
-extern const int CARD_HEIGHT;
+#define CARD_WIDTH 150
+#define CARD_HEIGHT 200
 
 enum CardType {
   AttackCard,
