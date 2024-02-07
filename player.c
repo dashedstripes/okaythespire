@@ -39,3 +39,4 @@ int Player_UseCard(Player *player, int cardIndex, Enemy *enemy)
   Hand_RemoveCard(player->hand, cardIndex);
   return 0;
 }
+

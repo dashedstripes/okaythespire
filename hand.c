@@ -60,7 +60,7 @@ int Hand_MakeInactive(Hand *hand)
 
 void Hand_Render(SDL_Renderer *renderer, Hand *hand, int x, int y) {
   for (int i = 0; i < hand->size; i++) {
-    Card_Render(renderer, hand->cards[i], x + (CARD_WIDTH * i) + (HAND_MARGIN * i), y, hand->cards[i] == hand->activeCard);
+    Card_Render(renderer, hand->cards[i], x + (CARD_WIDTH * i) + (HAND_MARGIN * i), y);
   }
 }
 

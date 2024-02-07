@@ -37,14 +37,7 @@ int Level_HandleClick(Level *level, int x, int y)
               (SCREEN_WIDTH / 2) - (((CARD_WIDTH * level->player->hand->size) + (HAND_MARGIN * (level->player->hand->size - 1))) / 2) + (i * (CARD_WIDTH + HAND_MARGIN)),
               SCREEN_HEIGHT - CARD_HEIGHT - 20))
       {
-        if (level->player->hand->cards[i] == level->player->hand->activeCard)
-        {
-          Hand_MakeInactive(level->player->hand);
-        }
-        else
-        {
-          Hand_MakeActive(level->player->hand, i);
-        }
+        Player_UseCard(level->player, i, level->enemy);
       }
     }
   }
