@@ -6,6 +6,7 @@
 #include "level.h"
 #include "screen.h"
 #include <SDL2/SDL.h>
+#include <SDL2_ttf/SDL_ttf.h>
 #include <stdio.h>
 
 int main() {
@@ -34,30 +35,33 @@ int main() {
     return -1;
   }
 
+  if(TTF_Init() < 0) {
+    printf("TTF could not be initialized! SDL Error: %s\n", SDL_GetError());
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+    return -1;
+  }
+
   SDL_Event e;
   int quit = 0;
   Uint32 lastTick = SDL_GetTicks();
 
   // all the cards available in game
   Card cardOne;
-  Card_Init(&cardOne, 0, ATTACK_CARD, 1, "res/cards/gun.jpg");
-  Card_LoadTexture(renderer, &cardOne);
+  Card_Init(&cardOne, 0, ATTACK_CARD, 1);
 
   Card cardTwo;
-  Card_Init(&cardTwo, 1, ATTACK_CARD, 2, "res/cards/dagger.jpg");
-  Card_LoadTexture(renderer, &cardTwo);
+  Card_Init(&cardTwo, 1, ATTACK_CARD, 2);
 
   Card cardThree;
-  Card_Init(&cardThree, 2, ATTACK_CARD, 3, "res/cards/placeholder.png");
-  Card_LoadTexture(renderer, &cardThree);
+  Card_Init(&cardThree, 2, ATTACK_CARD, 3);
 
   Card cardFour;
-  Card_Init(&cardFour, 3, BLOCK_CARD, 1, "res/cards/placeholder.png");
-  Card_LoadTexture(renderer, &cardFour);
+  Card_Init(&cardFour, 3, BLOCK_CARD, 1);
 
   Card cardFive;
-  Card_Init(&cardFive, 4, BLOCK_CARD, 2, "res/cards/placeholder.png");
-  Card_LoadTexture(renderer, &cardFive);
+  Card_Init(&cardFive, 4, BLOCK_CARD, 2);
 
   // init enemy (just one for now)
   Enemy enemy;
@@ -127,9 +131,11 @@ int main() {
 
   printf("Quitting...\n");
 
+
   Deck_Cleanup(&playerDeck);
   Hand_Cleanup(&hand);
 
+  TTF_Quit();
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();

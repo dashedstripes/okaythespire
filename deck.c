@@ -35,6 +35,7 @@ int Deck_Cleanup(Deck* deck)
 {
   if(deck->cards != NULL)
   {
+    Card_Cleanup(deck->cards[0]);
     free(deck->cards);
   }
   return 0;
