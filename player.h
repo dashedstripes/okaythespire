@@ -13,9 +13,11 @@ typedef struct {
   Hand *hand;
   int health;
   int energy;
+  TTF_Font *font;
 } Player;
 
 int Player_Init(Player *player, Deck *deck, Hand *hand);
 int Player_UseCard(Player *player, int cardIndex, Enemy *enemy);
+int Player_Render(SDL_Renderer *renderer, Player *player);
 
 #endif

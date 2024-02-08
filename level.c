@@ -46,6 +46,8 @@ int Level_HandleClick(Level *level, int x, int y)
 
 int Level_Render(SDL_Renderer *renderer, Level *level)
 {
+  Enemy_Render(renderer, level->enemy);
+  Player_Render(renderer, level->player);
   Hand_Render(renderer, level->player->hand, (SCREEN_WIDTH / 2) - (((CARD_WIDTH * level->player->hand->size) + (HAND_MARGIN * (level->player->hand->size - 1))) / 2), SCREEN_HEIGHT - CARD_HEIGHT - 20);
   return 0;
 }
