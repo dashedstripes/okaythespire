@@ -24,6 +24,9 @@ int Hand_AddCard(Hand *hand, Card *card, int index) {
     return -1;
   }
 
+  card->x = (CARD_WIDTH * index) + (HAND_MARGIN * index);
+  card->y = SCREEN_HEIGHT - CARD_HEIGHT - 20;
+  
   hand->cards[index] = card;
   hand->size++;
 
@@ -48,7 +51,7 @@ int Hand_MakeInactive(Hand *hand)
 
 void Hand_Render(SDL_Renderer *renderer, Hand *hand, int x, int y, TTF_Font *font) {
   for (int i = 0; i < hand->size; i++) {
-    Card_Render(renderer, hand->cards[i], x + (CARD_WIDTH * i) + (HAND_MARGIN * i), y, font);
+    Card_Render(renderer, hand->cards[i], x + (CARD_WIDTH * i) + (HAND_MARGIN * i), hand->cards[i]->y + hand->cards[i]->vy, font);
   }
 }
 

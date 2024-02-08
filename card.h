@@ -18,6 +18,7 @@ typedef struct {
   int y;
   int w;
   int h;
+  int vy;
   enum CardType type;
   int value;
   int cost;
@@ -26,6 +27,7 @@ typedef struct {
 } Card;
 
 int Card_Init(Card *card, int id, enum CardType type, int value, int cost);
+void Card_Update(Card *card, float deltaTime);
 void Card_Render(SDL_Renderer *renderer, Card *card, int x, int y, TTF_Font *font);
 int Card_Intersect(Card *card, int x, int y, int cardX, int cardY);
 
