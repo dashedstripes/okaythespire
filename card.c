@@ -15,7 +15,12 @@ int Card_Init(Card *card, int id, enum CardType type, int value, int cost)
 
 void Card_Update(Card *card, struct CardModel *model, float deltaTime) 
 {
-  model->y += model->vy * deltaTime;
+  if(model->cooldown > 0) 
+  {
+    model->y += model->vy * deltaTime;
+    model->cooldown -= 10 * deltaTime;
+    return;
+  }
 }
 
 void Card_Render(SDL_Renderer *renderer, Card *card, struct CardModel *model, TTF_Font *font) 

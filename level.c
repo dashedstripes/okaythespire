@@ -25,8 +25,17 @@ int Level_HandleClick(Level *level, int x, int y)
               y,
               level->player->hand->models[i]))
       {
-        level->player->hand->models[i]->vy = -30;
-        Player_UseCard(level->player, i, level->enemy);
+        if(level->player->hand->activeCard == level->player->hand->cards[i])
+        {
+          level->player->hand->models[i]->vy = 100;
+          level->player->hand->models[i]->cooldown = 1;
+          level->player->hand->activeCard = NULL;
+        } else {
+          level->player->hand->models[i]->vy = -100;
+          level->player->hand->models[i]->cooldown = 1;
+          Player_SelectCard(level->player, i);
+        }
+        
       }
     }
   }

@@ -1,0 +1,1 @@
+- instead of handling clicks when it happens, store the event and check it during the loop

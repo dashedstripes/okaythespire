@@ -14,6 +14,12 @@ int Player_Init(Player *player, Deck *deck, Hand *hand)
   return 0;
 }
 
+int Player_SelectCard(Player *player, int cardIndex) 
+{
+  player->hand->activeCard = player->hand->cards[cardIndex];
+  return 0;
+}
+
 int Player_UseCard(Player *player, int cardIndex, Enemy *enemy) 
 {
   if (player->energy < 1) 

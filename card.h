@@ -26,6 +26,7 @@ struct CardModel {
   float h;
   float vx;
   float vy;
+  float cooldown;
 };
 
 int Card_Init(Card *card, int id, enum CardType type, int value, int cost);
