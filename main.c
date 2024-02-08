@@ -52,19 +52,19 @@ int main() {
 
   // all the cards available in game
   Card cardOne;
-  Card_Init(&cardOne, 0, ATTACK_CARD, 1);
+  Card_Init(&cardOne, 0, ATTACK_CARD, 1, 1);
 
   Card cardTwo;
-  Card_Init(&cardTwo, 1, ATTACK_CARD, 2);
+  Card_Init(&cardTwo, 1, ATTACK_CARD, 2, 1);
 
   Card cardThree;
-  Card_Init(&cardThree, 2, ATTACK_CARD, 3);
+  Card_Init(&cardThree, 2, ATTACK_CARD, 3, 2);
 
   Card cardFour;
-  Card_Init(&cardFour, 3, BLOCK_CARD, 1);
+  Card_Init(&cardFour, 3, BLOCK_CARD, 1, 1);
 
   Card cardFive;
-  Card_Init(&cardFive, 4, BLOCK_CARD, 2);
+  Card_Init(&cardFive, 4, BLOCK_CARD, 1, 3);
 
   // init enemy (just one for now)
   Enemy enemy;

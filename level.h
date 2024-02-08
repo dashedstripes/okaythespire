@@ -4,6 +4,7 @@
 typedef struct {
   Enemy *enemy;
   Player *player;
+  int activePlayer;
 } Level;
 
 int Level_Init(Level *level, Enemy *enemy, Player *player);

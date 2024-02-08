@@ -4,11 +4,12 @@
 #include <SDL2_ttf/SDL_ttf.h>
 #include "text.h"
 
-int Card_Init(Card *card, int id, enum CardType type, int value) 
+int Card_Init(Card *card, int id, enum CardType type, int value, int cost) 
 {
   card->id = id;
   card->type = type;
   card->value = value;
+  card->cost = cost;
   return 0;
 }
 
@@ -30,7 +31,15 @@ void Card_Render(SDL_Renderer *renderer, Card *card, int x, int y, TTF_Font *fon
   // // render type
   TTF_SetFontSize(font, 16);
   SDL_Surface *typeSurface = Text_Create(font, card->type == ATTACK_CARD ? "ATTACK" : "BLOCK", (SDL_Color){255, 255, 255});
-  Text_Render(renderer, typeSurface, x + ((CARD_WIDTH / 2) - (typeSurface->w / 2)), y + (CARD_HEIGHT / 2) - (typeSurface->h / 2) + 48);
+  Text_Render(renderer, typeSurface, x + 16, y + 16);
+
+  // render mana cost
+  char manaText[8];
+  sprintf(manaText, "%d mana", card->cost);
+  TTF_SetFontSize(font, 16);
+  TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+  SDL_Surface *manaSurface = Text_Create(font, manaText, (SDL_Color){255, 255, 255});
+  Text_Render(renderer, manaSurface, x + CARD_WIDTH - manaSurface->w - 16, y + CARD_HEIGHT - manaSurface->h - 16);
 }
 
 int Card_Intersect(Card *card, int x, int y, int cardX, int cardY) 

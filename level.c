@@ -9,6 +9,7 @@ int Level_Init(Level *level, Enemy *enemy, Player *player)
 {
   level->enemy = enemy;
   level->player = player;
+  level->activePlayer = 0; // 0 = player, 1 = enemy
   return 0;
 }
 
