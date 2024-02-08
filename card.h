@@ -26,7 +26,6 @@ typedef struct {
 } Card;
 
 int Card_Init(Card *card, int id, enum CardType type, int value);
-int Card_Cleanup(Card *card);
 void Card_Render(SDL_Renderer *renderer, Card *card, int x, int y);
 int Card_Intersect(Card *card, int x, int y, int cardX, int cardY);
 
