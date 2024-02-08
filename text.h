@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2_ttf/SDL_ttf.h>
 
-int Text_Render(SDL_Renderer *renderer, TTF_Font *font, const char *text, int x, int y, SDL_Color color);
+SDL_Surface* Text_Create(TTF_Font *font, const char *text, SDL_Color color);
+int Text_Render(SDL_Renderer *renderer, SDL_Surface *surface, int x, int y);
 
 #endif

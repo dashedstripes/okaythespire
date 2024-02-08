@@ -20,12 +20,8 @@ int Enemy_Render(SDL_Renderer *renderer, Enemy *enemy)
   char healthText[20];
   sprintf(healthText, "Enemy Health: %d", enemy->health);
   TTF_SetFontSize(enemy->font, 24);
-  Text_Render(renderer, enemy->font, healthText, SCREEN_WIDTH - 256, 32, (SDL_Color){255, 255, 255});
-
-  // // render energy
-  // char energyText[4];
-  // sprintf(energyText, "%d", enemy->energy);
-  // Text_Render(renderer, enemy->font, energyText, 10, 30, (SDL_Color){255, 255, 255});
+  SDL_Surface *healthSurface = Text_Create(enemy->font, healthText, (SDL_Color){255, 255, 255});
+  Text_Render(renderer, healthSurface, SCREEN_WIDTH - (healthSurface->w + 32), 32);
 
   return 0;
 }

@@ -47,12 +47,15 @@ int Player_Render(SDL_Renderer *renderer, Player *player)
   char healthText[12];
   sprintf(healthText, "Health: %d", player->health);
   TTF_SetFontSize(player->font, 24);
-  Text_Render(renderer, player->font, healthText, 32, SCREEN_HEIGHT - 192, (SDL_Color){255, 255, 255});
+  SDL_Surface *healthSurface = Text_Create(player->font, healthText, (SDL_Color){255, 255, 255});
+  Text_Render(renderer, healthSurface, 32, SCREEN_HEIGHT - 192);
 
-  // render energy
+  // // render energy
   char energyText[8];
   sprintf(energyText, "Mana: %d", player->energy);
-  Text_Render(renderer, player->font, energyText, 32, SCREEN_HEIGHT - 160, (SDL_Color){255, 255, 255});
+  TTF_SetFontSize(player->font, 24);
+  SDL_Surface *energySurface = Text_Create(player->font, energyText, (SDL_Color){255, 255, 255});
+  Text_Render(renderer, energySurface, 32, SCREEN_HEIGHT - 160);
 
   return 0;
 }

@@ -25,11 +25,13 @@ void Card_Render(SDL_Renderer *renderer, Card *card, int x, int y)
 
   TTF_SetFontSize(card->font, 48);
   TTF_SetFontStyle(card->font, TTF_STYLE_BOLD);
-  Text_Render(renderer, card->font, valueText, x + ((CARD_WIDTH / 2) - 16), y + ((CARD_HEIGHT / 2) - 48), (SDL_Color){255, 255, 255});
+  SDL_Surface *valueSurface = Text_Create(card->font, valueText, (SDL_Color){255, 255, 255});
+  Text_Render(renderer, valueSurface, x + ((CARD_WIDTH / 2) - (valueSurface->w / 2)), y + (CARD_HEIGHT / 2) - (valueSurface->h / 2));
 
-  // render type
+  // // render type
   TTF_SetFontSize(card->font, 16);
-  Text_Render(renderer, card->font, card->type == ATTACK_CARD ? "ATTACK" : "BLOCK", x + ((CARD_WIDTH / 2) - 32), y + (CARD_HEIGHT - 32), (SDL_Color){255, 255, 255});
+  SDL_Surface *typeSurface = Text_Create(card->font, card->type == ATTACK_CARD ? "ATTACK" : "BLOCK", (SDL_Color){255, 255, 255});
+  Text_Render(renderer, typeSurface, x + ((CARD_WIDTH / 2) - (typeSurface->w / 2)), y + (CARD_HEIGHT / 2) - (typeSurface->h / 2) + 48);
 }
 
 int Card_Intersect(Card *card, int x, int y, int cardX, int cardY) 
