@@ -34,6 +34,7 @@ int Level_HandleClick(Level *level, int x, int y)
           level->player->hand->models[i]->vy = -100;
           level->player->hand->models[i]->cooldown = 1;
           Player_SelectCard(level->player, i);
+          Player_UseCard(level->player, i, level->enemy);
         }
         
       }

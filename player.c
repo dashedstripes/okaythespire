@@ -42,7 +42,7 @@ int Player_UseCard(Player *player, int cardIndex, Enemy *enemy)
     enemy->health -= player->hand->cards[cardIndex]->value;
   }
 
-  player->energy -= 1;
+  player->energy -= player->hand->cards[cardIndex]->cost;
   return 0;
 }
 
