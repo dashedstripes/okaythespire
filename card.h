@@ -22,11 +22,10 @@ typedef struct {
   int value;
   SDL_Texture *texture;
   char *texturePath;
-  TTF_Font *font;
 } Card;
 
 int Card_Init(Card *card, int id, enum CardType type, int value);
-void Card_Render(SDL_Renderer *renderer, Card *card, int x, int y);
+void Card_Render(SDL_Renderer *renderer, Card *card, int x, int y, TTF_Font *font);
 int Card_Intersect(Card *card, int x, int y, int cardX, int cardY);
 
 #endif

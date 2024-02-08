@@ -10,10 +10,9 @@ typedef struct {
   Hand *hand;
   int health;
   int energy;
-  TTF_Font *font;
 } Enemy;
 
 int Enemy_Init(Enemy *enemy);
-int Enemy_Render(SDL_Renderer *renderer, Enemy *enemy);
+int Enemy_Render(SDL_Renderer *renderer, Enemy *enemy, TTF_Font *font);
 
 #endif

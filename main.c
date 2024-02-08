@@ -47,6 +47,9 @@ int main() {
   int quit = 0;
   Uint32 lastTick = SDL_GetTicks();
 
+  // fonts
+  TTF_Font *font = TTF_OpenFont("res/fonts/open-sans/OpenSans-Regular.ttf", 24);
+
   // all the cards available in game
   Card cardOne;
   Card_Init(&cardOne, 0, ATTACK_CARD, 1);
@@ -123,7 +126,7 @@ int main() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    Level_Render(renderer, &level);
+    Level_Render(renderer, &level, font);
 
     SDL_RenderPresent(renderer);
     lastTick = currentTick;

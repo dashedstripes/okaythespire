@@ -46,9 +46,9 @@ int Hand_MakeInactive(Hand *hand)
   return 0;
 }
 
-void Hand_Render(SDL_Renderer *renderer, Hand *hand, int x, int y) {
+void Hand_Render(SDL_Renderer *renderer, Hand *hand, int x, int y, TTF_Font *font) {
   for (int i = 0; i < hand->size; i++) {
-    Card_Render(renderer, hand->cards[i], x + (CARD_WIDTH * i) + (HAND_MARGIN * i), y);
+    Card_Render(renderer, hand->cards[i], x + (CARD_WIDTH * i) + (HAND_MARGIN * i), y, font);
   }
 }
 

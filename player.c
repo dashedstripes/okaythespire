@@ -11,7 +11,6 @@ int Player_Init(Player *player, Deck *deck, Hand *hand)
   player->hand = hand;
   player->health = PLAYER_INITIAL_HEALTH;
   player->energy = PLAYER_INITIAL_ENERGY;
-  player->font = TTF_OpenFont("res/fonts/open-sans/OpenSans-Regular.ttf", 64);
   return 0;
 }
 
@@ -41,20 +40,22 @@ int Player_UseCard(Player *player, int cardIndex, Enemy *enemy)
   return 0;
 }
 
-int Player_Render(SDL_Renderer *renderer, Player *player) 
+int Player_Render(SDL_Renderer *renderer, Player *player, TTF_Font *font) 
 {
   // render health
   char healthText[12];
   sprintf(healthText, "Health: %d", player->health);
-  TTF_SetFontSize(player->font, 24);
-  SDL_Surface *healthSurface = Text_Create(player->font, healthText, (SDL_Color){255, 255, 255});
+  TTF_SetFontSize(font, 24);
+  TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+  SDL_Surface *healthSurface = Text_Create(font, healthText, (SDL_Color){255, 255, 255});
   Text_Render(renderer, healthSurface, 32, SCREEN_HEIGHT - 192);
 
   // // render energy
   char energyText[8];
   sprintf(energyText, "Mana: %d", player->energy);
-  TTF_SetFontSize(player->font, 24);
-  SDL_Surface *energySurface = Text_Create(player->font, energyText, (SDL_Color){255, 255, 255});
+  TTF_SetFontSize(font, 24);
+  TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+  SDL_Surface *energySurface = Text_Create(font, energyText, (SDL_Color){255, 255, 255});
   Text_Render(renderer, energySurface, 32, SCREEN_HEIGHT - 160);
 
   return 0;

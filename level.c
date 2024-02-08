@@ -3,6 +3,7 @@
 #include "level.h"
 #include "hand.h"
 #include "screen.h"
+#include <SDL2_ttf/SDL_ttf.h>
 
 int Level_Init(Level *level, Enemy *enemy, Player *player)
 {
@@ -44,10 +45,10 @@ int Level_HandleClick(Level *level, int x, int y)
   return 0;
 }
 
-int Level_Render(SDL_Renderer *renderer, Level *level)
+int Level_Render(SDL_Renderer *renderer, Level *level, TTF_Font *font)
 {
-  Enemy_Render(renderer, level->enemy);
-  Player_Render(renderer, level->player);
-  Hand_Render(renderer, level->player->hand, (SCREEN_WIDTH / 2) - (((CARD_WIDTH * level->player->hand->size) + (HAND_MARGIN * (level->player->hand->size - 1))) / 2), SCREEN_HEIGHT - CARD_HEIGHT - 20);
+  Enemy_Render(renderer, level->enemy, font);
+  Player_Render(renderer, level->player, font);
+  Hand_Render(renderer, level->player->hand, (SCREEN_WIDTH / 2) - (((CARD_WIDTH * level->player->hand->size) + (HAND_MARGIN * (level->player->hand->size - 1))) / 2), SCREEN_HEIGHT - CARD_HEIGHT - 20, font);
   return 0;
 }
