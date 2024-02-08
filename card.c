@@ -24,27 +24,27 @@ void Card_Render(SDL_Renderer *renderer, Card *card, struct CardModel *model, TT
   SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
   SDL_RenderFillRect(renderer, &cardRect);
 
-  // // render value
-  // char valueText[4];
-  // sprintf(valueText, "%d", card->value);
+  // render value
+  char valueText[4];
+  sprintf(valueText, "%d", card->value);
 
-  // TTF_SetFontSize(font, 48);
-  // TTF_SetFontStyle(font, TTF_STYLE_BOLD);
-  // SDL_Surface *valueSurface = Text_Create(font, valueText, (SDL_Color){255, 255, 255});
-  // Text_Render(renderer, valueSurface, x + ((CARD_WIDTH / 2) - (valueSurface->w / 2)), card->y + (CARD_HEIGHT / 2) - (valueSurface->h / 2));
+  TTF_SetFontSize(font, 48);
+  TTF_SetFontStyle(font, TTF_STYLE_BOLD);
+  SDL_Surface *valueSurface = Text_Create(font, valueText, (SDL_Color){255, 255, 255});
+  Text_Render(renderer, valueSurface, model->x + ((CARD_WIDTH / 2) - (valueSurface->w / 2)), model->y + (CARD_HEIGHT / 2) - (valueSurface->h / 2));
 
-  // // // render type
-  // TTF_SetFontSize(font, 16);
-  // SDL_Surface *typeSurface = Text_Create(font, card->type == ATTACK_CARD ? "ATTACK" : "BLOCK", (SDL_Color){255, 255, 255});
-  // Text_Render(renderer, typeSurface, x + 16, card->y + 16);
+  // render type
+  TTF_SetFontSize(font, 16);
+  SDL_Surface *typeSurface = Text_Create(font, card->type == ATTACK_CARD ? "ATTACK" : "BLOCK", (SDL_Color){255, 255, 255});
+  Text_Render(renderer, typeSurface, model->x + 16, model->y + 16);
 
-  // // render mana cost
-  // char manaText[8];
-  // sprintf(manaText, "%d mana", card->cost);
-  // TTF_SetFontSize(font, 16);
-  // TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
-  // SDL_Surface *manaSurface = Text_Create(font, manaText, (SDL_Color){255, 255, 255});
-  // Text_Render(renderer, manaSurface, x + CARD_WIDTH - manaSurface->w - 16, card->y + CARD_HEIGHT - manaSurface->h - 16);
+  // render mana cost
+  char manaText[8];
+  sprintf(manaText, "%d mana", card->cost);
+  TTF_SetFontSize(font, 16);
+  TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+  SDL_Surface *manaSurface = Text_Create(font, manaText, (SDL_Color){255, 255, 255});
+  Text_Render(renderer, manaSurface, model->x + CARD_WIDTH - manaSurface->w - 16, model->y + CARD_HEIGHT - manaSurface->h - 16);
 }
 
 int Card_Intersect(Card *card, int x, int y, struct CardModel *model) 

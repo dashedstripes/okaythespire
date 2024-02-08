@@ -25,8 +25,8 @@ int Level_HandleClick(Level *level, int x, int y)
               y,
               level->player->hand->models[i]))
       {
-        level->player->hand->models[i]->vy = -10;
-        // Player_UseCard(level->player, i, level->enemy);
+        level->player->hand->models[i]->vy = -30;
+        Player_UseCard(level->player, i, level->enemy);
       }
     }
   }
