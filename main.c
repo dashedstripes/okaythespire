@@ -53,18 +53,23 @@ int main() {
   // all the cards available in game
   Card cardOne;
   Card_Init(&cardOne, 0, ATTACK_CARD, 1, 1);
+  struct CardModel cardOneModel = {0, 0, CARD_WIDTH, CARD_HEIGHT, 0, 0};
 
   Card cardTwo;
   Card_Init(&cardTwo, 1, ATTACK_CARD, 2, 1);
+  struct CardModel cardTwoModel = {0, 0, CARD_WIDTH, CARD_HEIGHT, 0, 0};
 
   Card cardThree;
   Card_Init(&cardThree, 2, ATTACK_CARD, 3, 2);
+  struct CardModel cardThreeModel = {0, 0, CARD_WIDTH, CARD_HEIGHT, 0, 0};
 
   Card cardFour;
   Card_Init(&cardFour, 3, BLOCK_CARD, 1, 1);
+  struct CardModel cardFourModel = {0, 0, CARD_WIDTH, CARD_HEIGHT, 0, 0};
 
   Card cardFive;
   Card_Init(&cardFive, 4, BLOCK_CARD, 1, 3);
+  struct CardModel cardFiveModel = {0, 0, CARD_WIDTH, CARD_HEIGHT, 0, 0};
 
   // init enemy (just one for now)
   Enemy enemy;
@@ -80,13 +85,13 @@ int main() {
   Deck_AddCard(&playerDeck, &cardFive, 4);
 
   Hand hand;
-  Hand_Init(&hand, 6);
+  Hand_Init(&hand, 5);
 
-  Hand_AddCard(&hand, &cardOne, 0);
-  Hand_AddCard(&hand, &cardTwo, 1);
-  Hand_AddCard(&hand, &cardThree, 2);
-  Hand_AddCard(&hand, &cardFour, 3);
-  Hand_AddCard(&hand, &cardFive, 4);
+  Hand_AddCard(&hand, &cardOne, &cardOneModel, 0);
+  Hand_AddCard(&hand, &cardTwo, &cardTwoModel, 1);
+  Hand_AddCard(&hand, &cardThree, &cardThreeModel, 2);
+  Hand_AddCard(&hand, &cardFour, &cardFourModel, 3);
+  Hand_AddCard(&hand, &cardFive, &cardFiveModel, 4);
 
   // set up player
   Player player;

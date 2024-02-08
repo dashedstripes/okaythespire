@@ -14,21 +14,23 @@ enum CardType {
 
 typedef struct {
   int id;
-  int x;
-  int y;
-  int w;
-  int h;
-  int vy;
   enum CardType type;
   int value;
   int cost;
-  SDL_Texture *texture;
-  char *texturePath;
 } Card;
 
+struct CardModel {
+  float x;
+  float y;
+  float w;
+  float h;
+  float vx;
+  float vy;
+};
+
 int Card_Init(Card *card, int id, enum CardType type, int value, int cost);
-void Card_Update(Card *card, float deltaTime);
-void Card_Render(SDL_Renderer *renderer, Card *card, int x, int y, TTF_Font *font);
-int Card_Intersect(Card *card, int x, int y, int cardX, int cardY);
+void Card_Update(Card *card, struct CardModel *model, float deltaTime);
+void Card_Render(SDL_Renderer *renderer, Card *card, struct CardModel *model, TTF_Font *font);
+int Card_Intersect(Card *card, int x, int y, struct CardModel *model);
 
 #endif

@@ -15,7 +15,7 @@ int Level_Init(Level *level, Enemy *enemy, Player *player)
 
 int Level_HandleClick(Level *level, int x, int y)
 {
-  for (int i = 0; i < level->player->hand->max_size; i++)
+  for (int i = 0; i < level->player->hand->size; i++)
   {
     if (level->player->hand->cards[i] != NULL)
     {
@@ -23,12 +23,9 @@ int Level_HandleClick(Level *level, int x, int y)
               level->player->hand->cards[i],
               x,
               y,
-              (SCREEN_WIDTH / 2) - (((CARD_WIDTH * level->player->hand->size) + (HAND_MARGIN * (level->player->hand->size - 1))) / 2) + (i * (CARD_WIDTH + HAND_MARGIN)),
-              SCREEN_HEIGHT - CARD_HEIGHT - 20))
+              level->player->hand->models[i]))
       {
-        // animate card moving up, then use it
-        level->player->hand->cards[i]->vy = 20;
-
+        level->player->hand->models[i]->vy = -10;
         // Player_UseCard(level->player, i, level->enemy);
       }
     }
@@ -40,7 +37,13 @@ int Level_Update(Level *level, float deltaTime)
 {
   for (int i = 0; i < level->player->hand->size; i++)
   {
-    Card_Update(level->player->hand->cards[i], deltaTime);
+    if (level->player->hand->cards[i] != NULL)
+    {
+      Card_Update(
+          level->player->hand->cards[i],
+          level->player->hand->models[i],
+          deltaTime);
+    }
   }
   return 0;
 }
