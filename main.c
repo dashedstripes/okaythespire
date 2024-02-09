@@ -58,23 +58,28 @@ int main()
   // all the cards available in game
   Card cardOne;
   Card_Init(&cardOne, 0, ATTACK_CARD, 1, 1);
-  struct CardModel cardOneModel = {0, 0, CARD_WIDTH, CARD_HEIGHT, 0, 0};
+  struct CardModel cardOneModel;
+  CardModel_Init(&cardOneModel);
 
   Card cardTwo;
   Card_Init(&cardTwo, 1, ATTACK_CARD, 2, 1);
-  struct CardModel cardTwoModel = {0, 0, CARD_WIDTH, CARD_HEIGHT, 0, 0};
+  struct CardModel cardTwoModel;
+  CardModel_Init(&cardTwoModel);
 
   Card cardThree;
   Card_Init(&cardThree, 2, ATTACK_CARD, 3, 2);
-  struct CardModel cardThreeModel = {0, 0, CARD_WIDTH, CARD_HEIGHT, 0, 0};
+  struct CardModel cardThreeModel;
+  CardModel_Init(&cardThreeModel);
 
   Card cardFour;
   Card_Init(&cardFour, 3, BLOCK_CARD, 1, 1);
-  struct CardModel cardFourModel = {0, 0, CARD_WIDTH, CARD_HEIGHT, 0, 0};
+  struct CardModel cardFourModel;
+  CardModel_Init(&cardFourModel);
 
   Card cardFive;
   Card_Init(&cardFive, 4, BLOCK_CARD, 1, 3);
-  struct CardModel cardFiveModel = {0, 0, CARD_WIDTH, CARD_HEIGHT, 0, 0};
+  struct CardModel cardFiveModel;
+  CardModel_Init(&cardFiveModel);
 
   // init enemy (just one for now)
   Enemy enemy;

@@ -28,13 +28,15 @@ struct CardModel {
   float vy;
   float cooldown;
   int isAnimating;
+  float prevY;
+  float nextY;
 };
 
 int Card_Init(Card *card, int id, enum CardType type, int value, int cost);
-void Card_MakeActive(Card *card, struct CardModel *model);
-void Card_MakeInactive(Card *card, struct CardModel *model);
 void Card_Update(Card *card, struct CardModel *model, float deltaTime);
 void Card_Render(SDL_Renderer *renderer, Card *card, struct CardModel *model, TTF_Font *font);
-int Card_Intersect(Card *card, int x, int y, struct CardModel *model);
+int Card_Intersect(Card *card, float x, float y, struct CardModel *model);
+void Card_MoveY(Card *card, struct CardModel *model, float startY, float endY, float speed);
+void CardModel_Init(struct CardModel *model);
 
 #endif

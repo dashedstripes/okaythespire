@@ -17,26 +17,12 @@ int Level_HandleClick(Level *level, int x, int y)
 {
   for (int i = 0; i < level->player->hand->size; i++)
   {
-    Card* previousActiveCard = level->player->hand->activeCard;
-
     if (level->player->hand->cards[i] != NULL)
     {
-      if (Card_Intersect(
-              level->player->hand->cards[i],
-              x,
-              y,
-              level->player->hand->models[i]))
+      if (Card_Intersect(level->player->hand->cards[i], x, y, level->player->hand->models[i]))
       {
-        if(level->player->hand->cards[i] == level->player->hand->activeCard)
-        {
-          Hand_MakeInactive(level->player->hand, i);
-          Card_MakeInactive(level->player->hand->cards[i], level->player->hand->models[i]);  
-        }
-        else
-        {
-          Hand_MakeActive(level->player->hand, i);
-          Card_MakeActive(level->player->hand->cards[i], level->player->hand->models[i]);
-        }
+        // float startY = level->player->hand->models[i]->y;
+        // Card_MoveY(level->player->hand->cards[i], level->player->hand->models[i], startY, -100, -10);
       }
     }
   }

@@ -13,27 +13,34 @@ int Card_Init(Card *card, int id, enum CardType type, int value, int cost)
   return 0;
 }
 
+void CardModel_Init(struct CardModel *model) 
+{
+  model->x = 0;
+  model->y = 0;
+  model->w = CARD_WIDTH;
+  model->h = CARD_HEIGHT;
+  model->vx = 0;
+  model->vy = 0;
+  model->cooldown = 0;
+  model->isAnimating = 0;
+  model->prevY = 0;
+  model->nextY = 0;
+}
+
+void Card_MoveY(Card *card, struct CardModel *model, float startY, float endY, float speed) 
+{
+  // model->prevY = startY;
+  // model->nextY = endY;
+}
+
 void Card_Update(Card *card, struct CardModel *model, float deltaTime) 
 {
-  if(model->cooldown > 0)
-  {
-    model->y += model->vy * deltaTime;
-    model->cooldown -= 30 * deltaTime;
-  }
-
-  if (model->cooldown < 0) model->cooldown = 0;
-}
-
-void Card_MakeActive(Card *card, struct CardModel *model) 
-{
-  model->vy = -30;
-  model->cooldown = 10;
-}
-
-void Card_MakeInactive(Card *card, struct CardModel *model) 
-{
-  model->vy = 30;
-  model->cooldown = 10;
+  // if(model->y == model->prevY + model->nextY) {
+  //   model->vy = 0;
+  //   return;
+  // } else {
+  //   model->y += model->vy * deltaTime;
+  // }
 }
 
 void Card_Render(SDL_Renderer *renderer, Card *card, struct CardModel *model, TTF_Font *font) 
@@ -65,7 +72,7 @@ void Card_Render(SDL_Renderer *renderer, Card *card, struct CardModel *model, TT
   Text_Render(renderer, manaSurface, model->x + CARD_WIDTH - manaSurface->w - 16, model->y + CARD_HEIGHT - manaSurface->h - 16);
 }
 
-int Card_Intersect(Card *card, int x, int y, struct CardModel *model) 
+int Card_Intersect(Card *card, float x, float y, struct CardModel *model) 
 {
   return (x >= model->x && x <= model->x + model->w &&
           y >= model->y + model->vy && y <= model->y + model->vy + model->h);
