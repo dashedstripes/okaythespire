@@ -9,9 +9,11 @@
 #include <SDL2_ttf/SDL_ttf.h>
 #include <stdio.h>
 
-int main() {
+int main()
+{
 
-  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+  if (SDL_Init(SDL_INIT_VIDEO) < 0)
+  {
     printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
     return -1;
   }
@@ -20,7 +22,8 @@ int main() {
                                         SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
                                         SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
-  if (!window) {
+  if (!window)
+  {
     printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
     SDL_Quit();
     return -1;
@@ -28,14 +31,16 @@ int main() {
 
   SDL_Renderer *renderer =
       SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-  if (!renderer) {
+  if (!renderer)
+  {
     printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
     SDL_DestroyWindow(window);
     SDL_Quit();
     return -1;
   }
 
-  if(TTF_Init() < 0) {
+  if (TTF_Init() < 0)
+  {
     printf("TTF could not be initialized! SDL Error: %s\n", SDL_GetError());
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -102,22 +107,27 @@ int main() {
   Level level;
   Level_Init(&level, &enemy, &player);
 
-  while (!quit) {
+  while (!quit)
+  {
     Uint32 currentTick = SDL_GetTicks();
     float deltaTime = (currentTick - lastTick) / 1000.0f; // time in seconds
 
-    while (SDL_PollEvent(&e) != 0) {
-      switch (e.type) {
+    while (SDL_PollEvent(&e) != 0)
+    {
+      switch (e.type)
+      {
       case SDL_QUIT:
         quit = 1;
         break;
       case SDL_MOUSEBUTTONDOWN:
-        if (e.button.button == SDL_BUTTON_LEFT) {
+        if (e.button.button == SDL_BUTTON_LEFT)
+        {
           Level_HandleClick(&level, e.button.x, e.button.y);
         }
         break;
       case SDL_KEYDOWN:
-        switch (e.key.keysym.sym) {
+        switch (e.key.keysym.sym)
+        {
         case SDLK_ESCAPE:
           quit = 1;
           break;
@@ -138,7 +148,6 @@ int main() {
   }
 
   printf("Quitting...\n");
-
 
   Deck_Cleanup(&playerDeck);
   Hand_Cleanup(&hand);

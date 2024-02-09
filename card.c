@@ -3,6 +3,11 @@
 #include "card.h"
 #include <SDL2_ttf/SDL_ttf.h>
 #include "text.h"
+#include <math.h>
+
+double easeInOutSine(double x) {
+  return -(cos(M_PI * x) - 1) / 2;
+}
 
 int Card_Init(Card *card, int id, enum CardType type, int value, int cost) 
 {
@@ -15,12 +20,25 @@ int Card_Init(Card *card, int id, enum CardType type, int value, int cost)
 
 void Card_Update(Card *card, struct CardModel *model, float deltaTime) 
 {
-  if(model->cooldown > 0) 
+  if(model->cooldown > 0)
   {
     model->y += model->vy * deltaTime;
-    model->cooldown -= 10 * deltaTime;
-    return;
+    model->cooldown -= 30 * deltaTime;
   }
+
+  if (model->cooldown < 0) model->cooldown = 0;
+}
+
+void Card_MakeActive(Card *card, struct CardModel *model) 
+{
+  model->vy = -30;
+  model->cooldown = 10;
+}
+
+void Card_MakeInactive(Card *card, struct CardModel *model) 
+{
+  model->vy = 30;
+  model->cooldown = 10;
 }
 
 void Card_Render(SDL_Renderer *renderer, Card *card, struct CardModel *model, TTF_Font *font) 

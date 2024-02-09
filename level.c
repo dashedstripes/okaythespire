@@ -17,6 +17,8 @@ int Level_HandleClick(Level *level, int x, int y)
 {
   for (int i = 0; i < level->player->hand->size; i++)
   {
+    Card* previousActiveCard = level->player->hand->activeCard;
+
     if (level->player->hand->cards[i] != NULL)
     {
       if (Card_Intersect(
@@ -25,18 +27,16 @@ int Level_HandleClick(Level *level, int x, int y)
               y,
               level->player->hand->models[i]))
       {
-        if(level->player->hand->activeCard == level->player->hand->cards[i])
+        if(level->player->hand->cards[i] == level->player->hand->activeCard)
         {
-          level->player->hand->models[i]->vy = 100;
-          level->player->hand->models[i]->cooldown = 1;
-          level->player->hand->activeCard = NULL;
-        } else {
-          level->player->hand->models[i]->vy = -100;
-          level->player->hand->models[i]->cooldown = 1;
-          Player_SelectCard(level->player, i);
-          Player_UseCard(level->player, i, level->enemy);
+          Hand_MakeInactive(level->player->hand, i);
+          Card_MakeInactive(level->player->hand->cards[i], level->player->hand->models[i]);  
         }
-        
+        else
+        {
+          Hand_MakeActive(level->player->hand, i);
+          Card_MakeActive(level->player->hand->cards[i], level->player->hand->models[i]);
+        }
       }
     }
   }
@@ -45,16 +45,7 @@ int Level_HandleClick(Level *level, int x, int y)
 
 int Level_Update(Level *level, float deltaTime)
 {
-  for (int i = 0; i < level->player->hand->size; i++)
-  {
-    if (level->player->hand->cards[i] != NULL)
-    {
-      Card_Update(
-          level->player->hand->cards[i],
-          level->player->hand->models[i],
-          deltaTime);
-    }
-  }
+  Hand_Update(level->player->hand, deltaTime);
   return 0;
 }
 

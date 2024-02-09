@@ -52,10 +52,19 @@ int Hand_MakeActive(Hand *hand, int index)
   return 0;
 }
 
-int Hand_MakeInactive(Hand *hand)
+int Hand_MakeInactive(Hand *hand, int index)
 {
   hand->activeCard = NULL;
   return 0;
+}
+
+void Hand_Update(Hand *hand, float deltaTime) 
+{
+  for (int i = 0; i < hand->size; i++) {
+    if (hand->cards[i] != NULL) {
+      Card_Update(hand->cards[i], hand->models[i], deltaTime);
+    }
+  }
 }
 
 void Hand_Render(SDL_Renderer *renderer, Hand *hand, int x, int y, TTF_Font *font) {
