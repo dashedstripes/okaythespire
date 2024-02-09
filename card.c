@@ -25,6 +25,7 @@ void CardModel_Init(struct CardModel *model)
   model->isAnimating = 0;
   model->startY = 0;
   model->nextY = 0;
+  model->moveSpeed = 400;
 }
 
 void Card_Toggle(Card *card, struct CardModel *model) 
@@ -57,11 +58,11 @@ void Card_Update(Card *card, struct CardModel *model, float deltaTime)
   {
     if (model->y >= model->nextY) 
     {
-      model->vy = -200;
+      model->vy = -model->moveSpeed;
     } 
     else if (model->y <= model->nextY) 
     {
-      model->vy = 200;
+      model->vy = model->moveSpeed;
     }
 
     model->y += model->vy * deltaTime;

@@ -30,6 +30,7 @@ struct CardModel {
   int isAnimating;
   float startY;
   float nextY;
+  float moveSpeed;
 };
 
 int Card_Init(Card *card, int id, enum CardType type, int value, int cost);
