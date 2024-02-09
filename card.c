@@ -53,8 +53,6 @@ void Card_Toggle(Card *card, struct CardModel *model)
 
 void Card_Update(Card *card, struct CardModel *model, float deltaTime) 
 {
-  printf("%fmodel->y, %fmodel->nextY\n", model->y, model->nextY);
-
   if (model->isAnimating) 
   {
     if (model->y >= model->nextY) 
