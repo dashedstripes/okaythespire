@@ -23,24 +23,58 @@ void CardModel_Init(struct CardModel *model)
   model->vy = 0;
   model->cooldown = 0;
   model->isAnimating = 0;
-  model->prevY = 0;
+  model->startY = 0;
   model->nextY = 0;
 }
 
-void Card_MoveY(Card *card, struct CardModel *model, float startY, float endY, float speed) 
+void Card_Toggle(Card *card, struct CardModel *model) 
 {
-  // model->prevY = startY;
-  // model->nextY = endY;
+  if(!model->startY) 
+  {
+    model->startY = model->y;
+  }
+
+  if (model->isAnimating) 
+  {
+    return;
+  }
+
+  if (model->y == model->startY) 
+  {
+    model->nextY = model->startY - 50;
+  } 
+  else 
+  {
+    model->nextY = model->startY;
+  }
+
+  model->isAnimating = 1;
 }
 
 void Card_Update(Card *card, struct CardModel *model, float deltaTime) 
 {
-  // if(model->y == model->prevY + model->nextY) {
-  //   model->vy = 0;
-  //   return;
-  // } else {
-  //   model->y += model->vy * deltaTime;
-  // }
+  printf("%fmodel->y, %fmodel->nextY\n", model->y, model->nextY);
+
+  if (model->isAnimating) 
+  {
+    if (model->y >= model->nextY) 
+    {
+      model->vy = -200;
+    } 
+    else if (model->y <= model->nextY) 
+    {
+      model->vy = 200;
+    }
+
+    model->y += model->vy * deltaTime;
+
+    if((int)model->y == (int)model->nextY) 
+    {
+      model->y = model->nextY;
+      model->vy = 0;
+      model->isAnimating = 0;
+    }
+  }
 }
 
 void Card_Render(SDL_Renderer *renderer, Card *card, struct CardModel *model, TTF_Font *font) 

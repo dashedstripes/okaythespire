@@ -21,8 +21,7 @@ int Level_HandleClick(Level *level, int x, int y)
     {
       if (Card_Intersect(level->player->hand->cards[i], x, y, level->player->hand->models[i]))
       {
-        // float startY = level->player->hand->models[i]->y;
-        // Card_MoveY(level->player->hand->cards[i], level->player->hand->models[i], startY, -100, -10);
+        Card_Toggle(level->player->hand->cards[i], level->player->hand->models[i]);
       }
     }
   }
