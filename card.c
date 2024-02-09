@@ -3,11 +3,6 @@
 #include "card.h"
 #include <SDL2_ttf/SDL_ttf.h>
 #include "text.h"
-#include <math.h>
-
-double easeInOutSine(double x) {
-  return -(cos(M_PI * x) - 1) / 2;
-}
 
 int Card_Init(Card *card, int id, enum CardType type, int value, int cost) 
 {
