@@ -3,7 +3,7 @@
 
 SDL_Surface* Text_Create(TTF_Font *font, const char *text, SDL_Color color)
 {
-  SDL_Surface *surface = TTF_RenderText_Solid(font, text, color);
+  SDL_Surface *surface = TTF_RenderText_Blended(font, text, color);
   return surface;
 }
 

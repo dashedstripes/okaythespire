@@ -53,7 +53,7 @@ int main()
   Uint32 lastTick = SDL_GetTicks();
 
   // fonts
-  TTF_Font *font = TTF_OpenFont("res/fonts/open-sans/OpenSans-Regular.ttf", 24);
+  TTF_Font *font = TTF_OpenFont("res/fonts/open-sans/OpenSans-Regular.ttf", 64);
 
   // all the cards available in game
   Card cardOne;
