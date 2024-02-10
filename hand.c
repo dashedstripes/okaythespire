@@ -69,6 +69,29 @@ int Hand_MakeInactive(Hand *hand, int index)
   return 0;
 }
 
+void Hand_RemoveCard(Hand *hand, Card *card) {
+  // remove the card from the hand
+  for(int i = 0; i < hand->size; i++) {
+    if(hand->cards[i] == card) {
+      hand->cards[i] = NULL;
+      hand->models[i] = NULL;
+      hand->size--;
+    }
+  }
+
+  // shift the cards to the left
+  for(int i = 0; i < hand->size; i++) {
+    if(hand->cards[i] == NULL) {
+      for(int j = i; j < hand->size; j++) {
+        hand->cards[j] = hand->cards[j + 1];
+        hand->models[j] = hand->models[j + 1];
+        // update the model's x position
+        hand->models[j]->x = hand->x + (j * (CARD_WIDTH + HAND_MARGIN));
+      }
+    }
+  }
+}
+
 void Hand_DeactivateAllCards(Hand *hand)
 {
   for(int i = 0; i < hand->size; i++) {

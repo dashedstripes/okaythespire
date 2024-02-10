@@ -15,13 +15,15 @@ int Level_Init(Level *level, Enemy *enemy, Player *player)
 
 int Level_HandleClick(Level *level, int x, int y)
 {
+
+  // check if a card was clicked
   for (int i = 0; i < level->player->hand->size; i++)
   {
     if (level->player->hand->cards[i] != NULL)
     {
       if (Card_Intersect(level->player->hand->cards[i], x, y, level->player->hand->models[i]))
       {
-        if(level->player->hand->activeCard != level->player->hand->cards[i])
+        if(level->player->hand->activeCard != level->player->hand->cards[i] && level->player->energy >= level->player->hand->cards[i]->cost)
         {
           Hand_MakeActive(level->player->hand, i);
           Card_Toggle(level->player->hand->cards[i], level->player->hand->models[i], 1);
@@ -33,11 +35,13 @@ int Level_HandleClick(Level *level, int x, int y)
     }
   }
 
-  if(level->player->hand->activeCard != NULL)
+  // check if the hand button was clicked
+  if(level->player->hand->activeCard != NULL && level->player->energy >= level->player->hand->activeCard->cost)
   {
     if(Button_Intersect(level->player->hand->button, x, y))
     {
       Player_UseCard(level->player, level->enemy);
+      Hand_RemoveCard(level->player->hand, level->player->hand->activeCard);
       Hand_DeactivateAllCards(level->player->hand);
     }
   }

@@ -25,5 +25,6 @@ int Hand_Cleanup(Hand *hand);
 int Hand_MakeActive(Hand *hand, int index);
 int Hand_MakeInactive(Hand *hand, int index);
 void Hand_DeactivateAllCards(Hand *hand);
+void Hand_RemoveCard(Hand *hand, Card *card);
 
 #endif

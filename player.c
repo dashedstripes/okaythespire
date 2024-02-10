@@ -38,6 +38,7 @@ int Player_UseCard(Player *player, Enemy *enemy)
   }
 
   player->energy -= player->hand->activeCard->cost;
+  
   return 0;
 }
 
