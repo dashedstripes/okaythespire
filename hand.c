@@ -9,8 +9,8 @@ int Hand_Init(Hand *hand, int max_size) {
   hand->max_size = max_size;
   hand->cards = (Card **)malloc(sizeof(Card *) * max_size);
   hand->models = (struct CardModel **)malloc(sizeof(struct CardModel *) * max_size);
-  hand->x = (SCREEN_WIDTH - ((CARD_WIDTH * max_size) + (20 * (max_size - 1)))) / 2;
-  hand->y = SCREEN_HEIGHT - CARD_HEIGHT - 20;
+  hand->x = (SCREEN_WIDTH - ((CARD_WIDTH * max_size) + (HAND_MARGIN * (max_size - 1)))) / 2;
+  hand->y = SCREEN_HEIGHT - CARD_HEIGHT - HAND_MARGIN;
   hand->button = NULL;
 
   if (hand->cards == NULL) {
@@ -79,16 +79,21 @@ void Hand_RemoveCard(Hand *hand, Card *card) {
     }
   }
 
+  hand->x = (SCREEN_WIDTH - ((CARD_WIDTH * hand->size) + (HAND_MARGIN * (hand->size - 1)))) / 2;
+
   // shift the cards to the left
   for(int i = 0; i < hand->size; i++) {
     if(hand->cards[i] == NULL) {
       for(int j = i; j < hand->size; j++) {
         hand->cards[j] = hand->cards[j + 1];
         hand->models[j] = hand->models[j + 1];
-        // update the model's x position
-        hand->models[j]->x = hand->x + (j * (CARD_WIDTH + HAND_MARGIN));
       }
     }
+  }
+
+  // reset the x positions of the cards
+  for(int i = 0; i < hand->size; i++) {
+    hand->models[i]->x = hand->x + (i * (CARD_WIDTH + HAND_MARGIN));
   }
 }
 
