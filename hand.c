@@ -1,6 +1,7 @@
 #include "hand.h"
 #include "card.h"
 #include "screen.h"
+#include "text.h"
 
 int Hand_Init(Hand *hand, int max_size) {
   hand->size = 0;
@@ -78,6 +79,10 @@ void Hand_Update(Hand *hand, float deltaTime)
 void Hand_Render(SDL_Renderer *renderer, Hand *hand, int x, int y, TTF_Font *font) {
   for (int i = 0; i < hand->size; i++) {
     Card_Render(renderer, hand->cards[i], hand->models[i], font);
+  }
+
+  if(hand->activeCard != NULL) {
+    Text_Render(renderer, Text_Create(font, "Use Card", (SDL_Color){255, 255, 255, 255}), SCREEN_WIDTH / 2 - 25, SCREEN_HEIGHT / 2 - 25);
   }
 }
 
