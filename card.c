@@ -28,7 +28,7 @@ void CardModel_Init(struct CardModel *model)
   model->moveSpeed = 400;
 }
 
-void Card_Toggle(Card *card, struct CardModel *model) 
+void Card_Toggle(Card *card, struct CardModel *model, int isActive) 
 {
   if(!model->startY) 
   {
@@ -40,15 +40,17 @@ void Card_Toggle(Card *card, struct CardModel *model)
     return;
   }
 
-  if (model->y == model->startY) 
+  if(isActive)
   {
+    // move card up
     model->nextY = model->startY - 50;
   } 
   else 
   {
+    // move card down
     model->nextY = model->startY;
   }
-
+  
   model->isAnimating = 1;
 }
 

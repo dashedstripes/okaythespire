@@ -48,6 +48,14 @@ int Hand_MakeActive(Hand *hand, int index)
     return -1;
   }
 
+  for(int i = 0; i < hand->size; i++) {
+    if(hand->cards[i] != NULL) {
+      if(hand->cards[i] != hand->cards[index]) {
+        Card_Toggle(hand->cards[i], hand->models[i], 0);
+      }
+    }
+  }
+
   hand->activeCard = hand->cards[index];
   return 0;
 }

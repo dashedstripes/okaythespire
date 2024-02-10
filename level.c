@@ -21,7 +21,14 @@ int Level_HandleClick(Level *level, int x, int y)
     {
       if (Card_Intersect(level->player->hand->cards[i], x, y, level->player->hand->models[i]))
       {
-        Card_Toggle(level->player->hand->cards[i], level->player->hand->models[i]);
+        if(level->player->hand->activeCard != level->player->hand->cards[i])
+        {
+          Hand_MakeActive(level->player->hand, i);
+          Card_Toggle(level->player->hand->cards[i], level->player->hand->models[i], 1);
+        } else {
+          Hand_MakeInactive(level->player->hand, i);
+          Card_Toggle(level->player->hand->cards[i], level->player->hand->models[i], 0);
+        }
       }
     }
   }

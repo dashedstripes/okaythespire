@@ -38,6 +38,6 @@ void Card_Update(Card *card, struct CardModel *model, float deltaTime);
 void Card_Render(SDL_Renderer *renderer, Card *card, struct CardModel *model, TTF_Font *font);
 int Card_Intersect(Card *card, float x, float y, struct CardModel *model);
 void CardModel_Init(struct CardModel *model);
-void Card_Toggle(Card *card, struct CardModel *model);
+void Card_Toggle(Card *card, struct CardModel *model, int isActive);
 
 #endif
