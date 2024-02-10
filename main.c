@@ -48,12 +48,14 @@ int main()
     return -1;
   }
 
+  SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+
   SDL_Event e;
   int quit = 0;
   Uint32 lastTick = SDL_GetTicks();
 
   // fonts
-  TTF_Font *font = TTF_OpenFont("res/fonts/open-sans/OpenSans-Regular.ttf", 64);
+  TTF_Font *font = TTF_OpenFont("res/fonts/open-sans/OpenSans-Regular.ttf", 24);
 
   // all the cards available in game
   Card cardOne;

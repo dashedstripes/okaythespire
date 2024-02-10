@@ -95,6 +95,7 @@ void Card_Render(SDL_Renderer *renderer, Card *card, struct CardModel *model, TT
 
   // render type
   TTF_SetFontSize(font, 16);
+  TTF_SetFontStyle(font, TTF_STYLE_BOLD);
   SDL_Surface *typeSurface = Text_Create(font, card->type == ATTACK_CARD ? "ATTACK" : "BLOCK", (SDL_Color){255, 255, 255});
   Text_Render(renderer, typeSurface, model->x + 16, model->y + 16);
 
