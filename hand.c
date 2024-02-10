@@ -102,9 +102,10 @@ void Hand_DeactivateAllCards(Hand *hand)
   for(int i = 0; i < hand->size; i++) {
     if(hand->cards[i] != NULL) {
       Card_Toggle(hand->cards[i], hand->models[i], 0);
-      hand->activeCard = NULL;
     }
   }
+
+  hand->activeCard = NULL;
 }
 
 void Hand_Update(Hand *hand, float deltaTime) 

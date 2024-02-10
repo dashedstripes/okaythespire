@@ -29,7 +29,7 @@ int Level_HandleClick(Level *level, int x, int y)
           Card_Toggle(level->player->hand->cards[i], level->player->hand->models[i], 1);
         } else {
           Hand_MakeInactive(level->player->hand, i);
-          Card_Toggle(level->player->hand->cards[i], level->player->hand->models[i], 0);
+          Hand_DeactivateAllCards(level->player->hand);
         }
       }
     }
