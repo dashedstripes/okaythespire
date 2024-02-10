@@ -20,29 +20,24 @@ int Player_SelectCard(Player *player, int cardIndex)
   return 0;
 }
 
-int Player_UseCard(Player *player, int cardIndex, Enemy *enemy) 
+int Player_UseCard(Player *player, Enemy *enemy) 
 {
   if (player->energy < 1) 
   {
     return -1;
   }
 
-  if(cardIndex < 0 || cardIndex >= player->hand->max_size)
+  if(player->hand->activeCard == NULL)
   {
     return -1;
   }
 
-  if(player->hand->cards[cardIndex] == NULL)
+  if(player->hand->activeCard->type == ATTACK_CARD)
   {
-    return -1;
+    enemy->health -= player->hand->activeCard->value;
   }
 
-  if(player->hand->cards[cardIndex]->type == ATTACK_CARD)
-  {
-    enemy->health -= player->hand->cards[cardIndex]->value;
-  }
-
-  player->energy -= player->hand->cards[cardIndex]->cost;
+  player->energy -= player->hand->activeCard->cost;
   return 0;
 }
 

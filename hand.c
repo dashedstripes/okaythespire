@@ -2,6 +2,7 @@
 #include "card.h"
 #include "screen.h"
 #include "text.h"
+#include "button.h"
 
 int Hand_Init(Hand *hand, int max_size) {
   hand->size = 0;
@@ -10,6 +11,7 @@ int Hand_Init(Hand *hand, int max_size) {
   hand->models = (struct CardModel **)malloc(sizeof(struct CardModel *) * max_size);
   hand->x = (SCREEN_WIDTH - ((CARD_WIDTH * max_size) + (20 * (max_size - 1)))) / 2;
   hand->y = SCREEN_HEIGHT - CARD_HEIGHT - 20;
+  hand->button = NULL;
 
   if (hand->cards == NULL) {
     // Memory allocation failed
@@ -67,6 +69,16 @@ int Hand_MakeInactive(Hand *hand, int index)
   return 0;
 }
 
+void Hand_DeactivateAllCards(Hand *hand)
+{
+  for(int i = 0; i < hand->size; i++) {
+    if(hand->cards[i] != NULL) {
+      Card_Toggle(hand->cards[i], hand->models[i], 0);
+      hand->activeCard = NULL;
+    }
+  }
+}
+
 void Hand_Update(Hand *hand, float deltaTime) 
 {
   for (int i = 0; i < hand->size; i++) {
@@ -82,12 +94,13 @@ void Hand_Render(SDL_Renderer *renderer, Hand *hand, int x, int y, TTF_Font *fon
   }
 
   if(hand->activeCard != NULL) {
-    Text_Render(renderer, Text_Create(font, "Use Card", (SDL_Color){255, 255, 255, 255}), SCREEN_WIDTH / 2 - 25, SCREEN_HEIGHT / 2 - 25);
+    Button_Render(renderer, hand->button, font);
   }
 }
 
 int Hand_Cleanup(Hand *hand) 
 {
+  free(hand->models);
   free(hand->cards);
   return 0;
 }

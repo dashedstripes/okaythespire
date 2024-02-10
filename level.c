@@ -32,6 +32,15 @@ int Level_HandleClick(Level *level, int x, int y)
       }
     }
   }
+
+  if(level->player->hand->activeCard != NULL)
+  {
+    if(Button_Intersect(level->player->hand->button, x, y))
+    {
+      Player_UseCard(level->player, level->enemy);
+      Hand_DeactivateAllCards(level->player->hand);
+    }
+  }
   return 0;
 }
 

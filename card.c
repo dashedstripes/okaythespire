@@ -3,6 +3,7 @@
 #include "card.h"
 #include <SDL2_ttf/SDL_ttf.h>
 #include "text.h"
+#include "screen.h"
 
 int Card_Init(Card *card, int id, enum CardType type, int value, int cost) 
 {

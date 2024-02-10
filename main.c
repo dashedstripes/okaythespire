@@ -96,8 +96,12 @@ int main()
   Deck_AddCard(&playerDeck, &cardFour, 3);
   Deck_AddCard(&playerDeck, &cardFive, 4);
 
+  Button useCardButton;
+  Button_Init(&useCardButton, SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 25, 100, 50, "Use Card");
+
   Hand hand;
   Hand_Init(&hand, 5);
+  hand.button = &useCardButton;
 
   Hand_AddCard(&hand, &cardOne, &cardOneModel, 0);
   Hand_AddCard(&hand, &cardTwo, &cardTwoModel, 1);
