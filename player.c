@@ -11,6 +11,7 @@ int Player_Init(Player *player, Deck *deck, Hand *hand)
   player->hand = hand;
   player->health = PLAYER_INITIAL_HEALTH;
   player->energy = PLAYER_INITIAL_ENERGY;
+  player->block = 0;
   return 0;
 }
 
@@ -37,6 +38,11 @@ int Player_UseCard(Player *player, Enemy *enemy)
     enemy->health -= player->hand->activeCard->value;
   }
 
+  if(player->hand->activeCard->type == BLOCK_CARD)
+  {
+    player->block += player->hand->activeCard->value;
+  }
+
   player->energy -= player->hand->activeCard->cost;
   
   return 0;
@@ -59,6 +65,14 @@ int Player_Render(SDL_Renderer *renderer, Player *player, TTF_Font *font)
   TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
   SDL_Surface *energySurface = Text_Create(font, energyText, (SDL_Color){255, 255, 255});
   Text_Render(renderer, energySurface, 32, SCREEN_HEIGHT - 160);
+
+  // render block
+  char blockText[12];
+  sprintf(blockText, "Block: %d", player->block);
+  TTF_SetFontSize(font, 24);
+  TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+  SDL_Surface *blockSurface = Text_Create(font, blockText, (SDL_Color){255, 255, 255});
+  Text_Render(renderer, blockSurface, 32, SCREEN_HEIGHT - 128);
 
   return 0;
 }

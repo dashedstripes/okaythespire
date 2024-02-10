@@ -13,6 +13,7 @@ typedef struct {
   Hand *hand;
   int health;
   int energy;
+  int block;
 } Player;
 
 int Player_Init(Player *player, Deck *deck, Hand *hand);
