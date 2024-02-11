@@ -13,13 +13,6 @@ enum CardType {
 };
 
 typedef struct {
-  int id;
-  enum CardType type;
-  int value;
-  int cost;
-} Card;
-
-struct CardModel {
   float x;
   float y;
   float w;
@@ -31,13 +24,21 @@ struct CardModel {
   float startY;
   float nextY;
   float moveSpeed;
-};
+} CardModel;
 
-int Card_Init(Card *card, int id, enum CardType type, int value, int cost);
-void Card_Update(Card *card, struct CardModel *model, float deltaTime);
-void Card_Render(SDL_Renderer *renderer, Card *card, struct CardModel *model, TTF_Font *font);
-int Card_Intersect(Card *card, float x, float y, struct CardModel *model);
-void CardModel_Init(struct CardModel *model);
-void Card_Toggle(Card *card, struct CardModel *model, int isActive);
+typedef struct {
+  int id;
+  enum CardType type;
+  int value;
+  int cost;
+  CardModel *model;
+} Card;
+
+int Card_Init(Card *card, int id, enum CardType type, int value, int cost, CardModel *model);
+void Card_Update(Card *card, float deltaTime);
+void Card_Render(SDL_Renderer *renderer, Card *card, TTF_Font *font);
+int Card_Intersect(Card *card, float x, float y);
+void CardModel_Init(CardModel *model);
+void Card_Toggle(Card *card, int isActive);
 
 #endif

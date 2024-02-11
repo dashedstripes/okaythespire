@@ -24,7 +24,7 @@ int Hand_Init(Hand *hand, int max_size) {
 
   for (int i = 0; i < max_size; i++) {
     hand->cards[i] = NULL;
-    hand->models[i] = NULL;
+    hand->cards[i]->model = NULL;
   }
 
   return 0;
@@ -38,9 +38,9 @@ int Hand_AddCard(Hand *hand, Card *card, struct CardModel *model, int index) {
   hand->size++;
   
   hand->cards[index] = card;
-  hand->models[index] = model;
-  hand->models[index]->x = hand->x + (index * (CARD_WIDTH + HAND_MARGIN));
-  hand->models[index]->y = hand->y;
+  hand->cards[index]->model = model;
+  hand->cards[index]->model->x = hand->x + (index * (CARD_WIDTH + HAND_MARGIN));
+  hand->cards[index]->model->y = hand->y;
 
   return 0;
 }
@@ -54,7 +54,7 @@ int Hand_MakeActive(Hand *hand, int index)
   for(int i = 0; i < hand->size; i++) {
     if(hand->cards[i] != NULL) {
       if(hand->cards[i] != hand->cards[index]) {
-        Card_Toggle(hand->cards[i], hand->models[i], 0);
+        Card_Toggle(hand->cards[i], hand->cards[i]->model, 0);
       }
     }
   }
@@ -74,7 +74,7 @@ void Hand_RemoveCard(Hand *hand, Card *card) {
   for(int i = 0; i < hand->size; i++) {
     if(hand->cards[i] == card) {
       hand->cards[i] = NULL;
-      hand->models[i] = NULL;
+      hand->cards[i]->model = NULL;
       hand->size--;
     }
   }
@@ -93,7 +93,7 @@ void Hand_RemoveCard(Hand *hand, Card *card) {
 
   // reset the x positions of the cards
   for(int i = 0; i < hand->size; i++) {
-    hand->models[i]->x = hand->x + (i * (CARD_WIDTH + HAND_MARGIN));
+    hand->cards[i]->model->x = hand->x + (i * (CARD_WIDTH + HAND_MARGIN));
   }
 }
 
@@ -101,7 +101,7 @@ void Hand_DeactivateAllCards(Hand *hand)
 {
   for(int i = 0; i < hand->size; i++) {
     if(hand->cards[i] != NULL) {
-      Card_Toggle(hand->cards[i], hand->models[i], 0);
+      Card_Toggle(hand->cards[i], hand->cards[i]->model, 0);
     }
   }
 
@@ -112,14 +112,14 @@ void Hand_Update(Hand *hand, float deltaTime)
 {
   for (int i = 0; i < hand->size; i++) {
     if (hand->cards[i] != NULL) {
-      Card_Update(hand->cards[i], hand->models[i], deltaTime);
+      Card_Update(hand->cards[i], hand->cards[i]->model, deltaTime);
     }
   }
 }
 
 void Hand_Render(SDL_Renderer *renderer, Hand *hand, int x, int y, TTF_Font *font) {
   for (int i = 0; i < hand->size; i++) {
-    Card_Render(renderer, hand->cards[i], hand->models[i], font);
+    Card_Render(renderer, hand->cards[i], hand->cards[i]->model, font);
   }
 
   if(hand->activeCard != NULL) {

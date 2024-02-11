@@ -1,9 +1,9 @@
 #include "card.h"
-#include "hand.h"
 #include "deck.h"
 #include "player.h"
 #include "enemy.h"
 #include "level.h"
+#include "button.h"
 #include "screen.h"
 #include <SDL2/SDL.h>
 #include <SDL2_ttf/SDL_ttf.h>
@@ -58,30 +58,28 @@ int main()
   TTF_Font *font = TTF_OpenFont("res/fonts/open-sans/OpenSans-Regular.ttf", 24);
 
   // all the cards available in game
-  Card cardOne;
-  Card_Init(&cardOne, 0, ATTACK_CARD, 1, 1);
-  struct CardModel cardOneModel;
+  CardModel cardOneModel;
   CardModel_Init(&cardOneModel);
-
-  Card cardTwo;
-  Card_Init(&cardTwo, 1, ATTACK_CARD, 2, 1);
-  struct CardModel cardTwoModel;
+  CardModel cardTwoModel;
   CardModel_Init(&cardTwoModel);
-
-  Card cardThree;
-  Card_Init(&cardThree, 2, ATTACK_CARD, 3, 2);
-  struct CardModel cardThreeModel;
+  CardModel cardThreeModel;
   CardModel_Init(&cardThreeModel);
-
-  Card cardFour;
-  Card_Init(&cardFour, 3, BLOCK_CARD, 1, 1);
-  struct CardModel cardFourModel;
+  CardModel cardFourModel;
   CardModel_Init(&cardFourModel);
-
-  Card cardFive;
-  Card_Init(&cardFive, 4, BLOCK_CARD, 1, 3);
-  struct CardModel cardFiveModel;
+  CardModel cardFiveModel;
   CardModel_Init(&cardFiveModel);
+  
+  Card cardOne;
+  Card_Init(&cardOne, 0, ATTACK_CARD, 1, 1, &cardOneModel);
+  Card cardTwo;
+  Card_Init(&cardTwo, 1, BLOCK_CARD, 2, 1, &cardTwoModel);
+  Card cardThree;
+  Card_Init(&cardThree, 2, ATTACK_CARD, 3, 2, &cardThreeModel);
+  Card cardFour;
+  Card_Init(&cardFour, 3, BLOCK_CARD, 4, 2, &cardFourModel);
+  Card cardFive;
+  Card_Init(&cardFive, 4, ATTACK_CARD, 5, 3, &cardFiveModel);
+
 
   // init enemy (just one for now)
   Enemy enemy;
@@ -99,19 +97,14 @@ int main()
   Button useCardButton;
   Button_Init(&useCardButton, SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 25, 100, 50, "Use Card");
 
-  Hand hand;
-  Hand_Init(&hand, 5);
-  hand.button = &useCardButton;
-
-  Hand_AddCard(&hand, &cardOne, &cardOneModel, 0);
-  Hand_AddCard(&hand, &cardTwo, &cardTwoModel, 1);
-  Hand_AddCard(&hand, &cardThree, &cardThreeModel, 2);
-  Hand_AddCard(&hand, &cardFour, &cardFourModel, 3);
-  Hand_AddCard(&hand, &cardFive, &cardFiveModel, 4);
-
   // set up player
   Player player;
-  Player_Init(&player, &playerDeck, &hand);
+  Player_Init(&player);
+  Player_AddCard(&player, &cardOne, 0);
+  Player_AddCard(&player, &cardTwo, 1);
+  Player_AddCard(&player, &cardThree, 2);
+  Player_AddCard(&player, &cardFour, 3);
+  Player_AddCard(&player, &cardFive, 4);
 
   // set up a level (i.e a fight):
 
@@ -161,7 +154,6 @@ int main()
   printf("Quitting...\n");
 
   Deck_Cleanup(&playerDeck);
-  Hand_Cleanup(&hand);
 
   TTF_Quit();
   SDL_DestroyRenderer(renderer);

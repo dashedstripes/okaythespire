@@ -5,16 +5,17 @@
 #include "text.h"
 #include "screen.h"
 
-int Card_Init(Card *card, int id, enum CardType type, int value, int cost) 
+int Card_Init(Card *card, int id, enum CardType type, int value, int cost, CardModel *model) 
 {
   card->id = id;
   card->type = type;
   card->value = value;
   card->cost = cost;
+  card->model = model;
   return 0;
 }
 
-void CardModel_Init(struct CardModel *model) 
+void CardModel_Init(CardModel *model) 
 {
   model->x = 0;
   model->y = 0;
@@ -29,14 +30,14 @@ void CardModel_Init(struct CardModel *model)
   model->moveSpeed = 400;
 }
 
-void Card_Toggle(Card *card, struct CardModel *model, int isActive) 
+void Card_Toggle(Card *card, int isActive) 
 {
-  if(!model->startY) 
+  if(!card->model->startY) 
   {
-    model->startY = model->y;
+    card->model->startY = card->model->y;
   }
 
-  if (model->isAnimating) 
+  if (card->model->isAnimating) 
   {
     return;
   }
@@ -44,44 +45,44 @@ void Card_Toggle(Card *card, struct CardModel *model, int isActive)
   if(isActive)
   {
     // move card up
-    model->nextY = model->startY - 50;
+    card->model->nextY = card->model->startY - 50;
   } 
   else 
   {
     // move card down
-    model->nextY = model->startY;
+    card->model->nextY = card->model->startY;
   }
   
-  model->isAnimating = 1;
+  card->model->isAnimating = 1;
 }
 
-void Card_Update(Card *card, struct CardModel *model, float deltaTime) 
+void Card_Update(Card *card, float deltaTime) 
 {
-  if (model->isAnimating) 
+  if (card->model->isAnimating) 
   {
-    if (model->y >= model->nextY) 
+    if (card->model->y >= card->model->nextY) 
     {
-      model->vy = -model->moveSpeed;
+      card->model->vy = -card->model->moveSpeed;
     } 
-    else if (model->y <= model->nextY) 
+    else if (card->model->y <= card->model->nextY) 
     {
-      model->vy = model->moveSpeed;
+      card->model->vy = card->model->moveSpeed;
     }
 
-    model->y += model->vy * deltaTime;
+    card->model->y += card->model->vy * deltaTime;
 
-    if((int)model->y == (int)model->nextY) 
+    if((int)card->model->y == (int)card->model->nextY) 
     {
-      model->y = model->nextY;
-      model->vy = 0;
-      model->isAnimating = 0;
+      card->model->y = card->model->nextY;
+      card->model->vy = 0;
+      card->model->isAnimating = 0;
     }
   }
 }
 
-void Card_Render(SDL_Renderer *renderer, Card *card, struct CardModel *model, TTF_Font *font) 
+void Card_Render(SDL_Renderer *renderer, Card *card, TTF_Font *font) 
 {
-  SDL_Rect cardRect = {model->x, model->y, model->w, model->h};
+  SDL_Rect cardRect = {card->model->x, card->model->y, card->model->w, card->model->h};
   SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
   SDL_RenderFillRect(renderer, &cardRect);
 
@@ -92,13 +93,13 @@ void Card_Render(SDL_Renderer *renderer, Card *card, struct CardModel *model, TT
   TTF_SetFontSize(font, 48);
   TTF_SetFontStyle(font, TTF_STYLE_BOLD);
   SDL_Surface *valueSurface = Text_Create(font, valueText, (SDL_Color){255, 255, 255});
-  Text_Render(renderer, valueSurface, model->x + ((CARD_WIDTH / 2) - (valueSurface->w / 2)), model->y + (CARD_HEIGHT / 2) - (valueSurface->h / 2));
+  Text_Render(renderer, valueSurface, card->model->x + ((CARD_WIDTH / 2) - (valueSurface->w / 2)), card->model->y + (CARD_HEIGHT / 2) - (valueSurface->h / 2));
 
   // render type
   TTF_SetFontSize(font, 16);
   TTF_SetFontStyle(font, TTF_STYLE_BOLD);
   SDL_Surface *typeSurface = Text_Create(font, card->type == ATTACK_CARD ? "ATTACK" : "BLOCK", (SDL_Color){255, 255, 255});
-  Text_Render(renderer, typeSurface, model->x + 16, model->y + 16);
+  Text_Render(renderer, typeSurface, card->model->x + 16, card->model->y + 16);
 
   // render mana cost
   char manaText[8];
@@ -106,11 +107,11 @@ void Card_Render(SDL_Renderer *renderer, Card *card, struct CardModel *model, TT
   TTF_SetFontSize(font, 16);
   TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
   SDL_Surface *manaSurface = Text_Create(font, manaText, (SDL_Color){255, 255, 255});
-  Text_Render(renderer, manaSurface, model->x + CARD_WIDTH - manaSurface->w - 16, model->y + CARD_HEIGHT - manaSurface->h - 16);
+  Text_Render(renderer, manaSurface, card->model->x + CARD_WIDTH - manaSurface->w - 16, card->model->y + CARD_HEIGHT - manaSurface->h - 16);
 }
 
-int Card_Intersect(Card *card, float x, float y, struct CardModel *model) 
+int Card_Intersect(Card *card, float x, float y) 
 {
-  return (x >= model->x && x <= model->x + model->w &&
-          y >= model->y + model->vy && y <= model->y + model->vy + model->h);
+  return (x >= card->model->x && x <= card->model->x + card->model->w &&
+          y >= card->model->y + card->model->vy && y <= card->model->y + card->model->vy + card->model->h);
 }
