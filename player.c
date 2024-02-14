@@ -59,8 +59,12 @@ void Player_SelectCard(Player *player, int cardIndex)
       }
     }
 
-    player->activeCard = player->hand[cardIndex];
-    Card_Toggle(player->activeCard, 1);
+    // if player has enough energy, select the card
+    if(player->hand[cardIndex]->cost <= player->energy) 
+    {
+      player->activeCard = player->hand[cardIndex];
+      Card_Toggle(player->activeCard, 1);
+    }
   }
 }
 
@@ -93,6 +97,11 @@ void Player_UseCard(Player *player, Enemy *enemy)
   }
 
   if(player->activeCard == NULL)
+  {
+    return;
+  }
+
+  if(player->energy < player->activeCard->cost)
   {
     return;
   }

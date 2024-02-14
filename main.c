@@ -9,6 +9,24 @@
 #include <SDL2_ttf/SDL_ttf.h>
 #include <stdio.h>
 
+void render_version(SDL_Renderer *renderer, TTF_Font *font)
+{
+  TTF_SetFontSize(font, 12);
+  TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+  SDL_Surface *versionSurface = Text_Create(font, "v0.0.1", (SDL_Color){255, 255, 255});
+  Text_Render(renderer, versionSurface, SCREEN_WIDTH - versionSurface->w - 12, SCREEN_HEIGHT - versionSurface->h - 12);
+}
+
+void render_fps(SDL_Renderer *renderer, TTF_Font *font, int fps)
+{
+  char fpsText[9];
+  sprintf(fpsText, "FPS: %d", fps);
+  TTF_SetFontSize(font, 12);
+  TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+  SDL_Surface *fpsSurface = Text_Create(font, fpsText, (SDL_Color){255, 255, 255});
+  Text_Render(renderer, fpsSurface, 12, 12);
+}
+
 int main()
 {
 
@@ -111,6 +129,11 @@ int main()
   Level level;
   Level_Init(&level, &enemy, &player);
 
+  // calculate FPS
+  Uint32 lastTime = SDL_GetTicks();
+  int frames = 0;
+  int fps = 0;
+
   while (!quit)
   {
     Uint32 currentTick = SDL_GetTicks();
@@ -147,8 +170,22 @@ int main()
 
     Level_Render(renderer, &level, font);
 
+    // render metadata
+    render_version(renderer, font);
+    render_fps(renderer, font, fps);
+
     SDL_RenderPresent(renderer);
     lastTick = currentTick;
+
+    // update FPS
+    frames++;
+
+    if (SDL_GetTicks() - lastTime >= 1000)
+    {
+      fps = frames;
+      frames = 0;
+      lastTime = SDL_GetTicks();
+    }
   }
 
   printf("Quitting...\n");
