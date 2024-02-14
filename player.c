@@ -3,6 +3,7 @@
 #include "deck.h"
 #include "card.h"
 #include "screen.h"
+#include "card.h"
 
 int Player_Init(Player *player) 
 {
@@ -28,10 +29,47 @@ void Player_AddCard(Player *player, Card *card, int index)
   player->hand[index]->model->y = SCREEN_HEIGHT - CARD_HEIGHT - 20;
 }
 
-int Player_SelectCard(Player *player, int cardIndex) 
+void Player_SelectCard(Player *player, int cardIndex) 
 {
-  player->activeCard = player->hand[cardIndex];
-  return 0;
+  if(player->hand[cardIndex] == NULL) 
+  {
+    return;
+  }
+
+  if(player->hand[cardIndex] == player->activeCard) 
+  {
+    Card_Toggle(player->hand[cardIndex], 0);
+    player->activeCard = NULL;
+  } else {
+    for(int i = 0; i < player->handSize; i++) 
+    {
+      if(player->hand[i] != NULL) 
+      {
+        if(player->hand[i] != player->hand[cardIndex]) 
+        {
+          Card_Toggle(player->hand[i], 0);
+        }
+      }
+    }
+
+    player->activeCard = player->hand[cardIndex];
+    Card_Toggle(player->activeCard, 1);
+  }
+
+}
+
+void Player_HandleClick(Player *player, int x, int y) 
+{
+  for (int i = 0; i < player->handSize; i++) 
+  {
+    if (player->hand[i] != NULL) 
+    {
+      if(Card_Intersect(player->hand[i], x, y))
+      {
+        Player_SelectCard(player, i);
+      }
+    }
+  }
 }
 
 int Player_UseCard(Player *player, Enemy *enemy) 
@@ -59,6 +97,17 @@ int Player_UseCard(Player *player, Enemy *enemy)
   player->energy -= player->activeCard->cost;
   
   return 0;
+}
+
+void Player_Update(Player *player, float deltaTime) 
+{
+  for (int i = 0; i < player->handSize; i++) 
+  {
+    if (player->hand[i] != NULL) 
+    {
+      Card_Update(player->hand[i], deltaTime);
+    }
+  }
 }
 
 int Player_Render(SDL_Renderer *renderer, Player *player, TTF_Font *font) 

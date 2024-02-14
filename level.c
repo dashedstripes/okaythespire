@@ -14,11 +14,16 @@ int Level_Init(Level *level, Enemy *enemy, Player *player)
 
 int Level_HandleClick(Level *level, int x, int y)
 {
+  if(level->activePlayer == 0)
+  {
+    Player_HandleClick(level->player, x, y);
+  }
   return 0;
 }
 
 int Level_Update(Level *level, float deltaTime)
 {
+  Player_Update(level->player, deltaTime);
   return 0;
 }
 

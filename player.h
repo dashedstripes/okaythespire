@@ -19,8 +19,10 @@ typedef struct {
 
 int Player_Init(Player *player);
 void Player_AddCard(Player *player, Card *card, int index);
-int Player_SelectCard(Player *player, int cardIndex);
+void Player_SelectCard(Player *player, int cardIndex);
 int Player_UseCard(Player *player, Enemy *enemy);
+void Player_HandleClick(Player *player, int x, int y);
+void Player_Update(Player *player, float deltaTime);
 int Player_Render(SDL_Renderer *renderer, Player *player, TTF_Font *font);
 
 #endif
