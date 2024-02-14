@@ -9,6 +9,10 @@
 #include <SDL2_ttf/SDL_ttf.h>
 #include <stdio.h>
 
+#ifdef MACOS_BUILD
+#include <CoreFoundation/CoreFoundation.h>
+#endif
+
 void render_version(SDL_Renderer *renderer, TTF_Font *font)
 {
   TTF_SetFontSize(font, 12);
@@ -72,8 +76,25 @@ int main()
   int quit = 0;
   Uint32 lastTick = SDL_GetTicks();
 
-  // fonts
-  TTF_Font *font = TTF_OpenFont("res/fonts/open-sans/OpenSans-Regular.ttf", 24);
+  // load font from macos bundle
+  TTF_Font *font = NULL;
+
+  #ifdef MACOS_BUILD
+  CFBundleRef mainBundle = CFBundleGetMainBundle();
+  CFURLRef resourcesURL = CFBundleCopyResourcesDirectoryURL(mainBundle);
+  char path[PATH_MAX];
+  if (CFURLGetFileSystemRepresentation(resourcesURL, TRUE, (UInt8 *)path, PATH_MAX)) {
+    // Append the relative path of your font to the resources path
+    strcat(path, "/OpenSans-Regular.ttf");
+    // Now 'path' contains the full path to your font file
+    font = TTF_OpenFont(path, 24);
+  } else {
+      // Handle the error
+  }
+  CFRelease(resourcesURL);
+  #else
+  font = TTF_OpenFont("res/OpenSans-Regular.ttf", 24);
+  #endif
 
   // all the cards available in game
   CardModel cardOneModel;
