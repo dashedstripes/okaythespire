@@ -99,7 +99,7 @@ int main()
 
   // set up player
   Player player;
-  Player_Init(&player);
+  Player_Init(&player, &useCardButton);
   Player_AddCard(&player, &cardOne, 0);
   Player_AddCard(&player, &cardTwo, 1);
   Player_AddCard(&player, &cardThree, 2);
@@ -154,6 +154,7 @@ int main()
   printf("Quitting...\n");
 
   Deck_Cleanup(&playerDeck);
+  Player_CleanUp(&player);
 
   TTF_Quit();
   SDL_DestroyRenderer(renderer);

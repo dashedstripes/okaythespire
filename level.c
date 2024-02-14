@@ -14,8 +14,12 @@ int Level_Init(Level *level, Enemy *enemy, Player *player)
 
 int Level_HandleClick(Level *level, int x, int y)
 {
-  if(level->activePlayer == 0)
+  if (level->activePlayer == 0)
   {
+    if (Button_Intersect(level->player->useCardButton, x, y))
+    {
+      Player_UseCard(level->player, level->enemy);
+    }
     Player_HandleClick(level->player, x, y);
   }
   return 0;
