@@ -1,5 +1,11 @@
 #include <SDL2/SDL.h>
+
+#ifdef EMSCRIPTEN
+#include <SDL_ttf.h>
+#else
 #include <SDL2_ttf/SDL_ttf.h>
+#endif
+
 #include "button.h"
 #include "text.h"
 

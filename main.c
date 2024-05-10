@@ -6,7 +6,13 @@
 #include "button.h"
 #include "screen.h"
 #include <SDL2/SDL.h>
+
+#ifdef EMSCRIPTEN
+#include <SDL_ttf.h>
+#else
 #include <SDL2_ttf/SDL_ttf.h>
+#endif
+
 #include <stdio.h>
 
 #ifdef MACOS_BUILD
@@ -107,7 +113,7 @@ int main()
   CardModel_Init(&cardFourModel);
   CardModel cardFiveModel;
   CardModel_Init(&cardFiveModel);
-  
+
   Card cardOne;
   Card_Init(&cardOne, 0, ATTACK_CARD, 1, 1, &cardOneModel);
   Card cardTwo;

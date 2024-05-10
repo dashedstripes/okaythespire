@@ -1,5 +1,10 @@
 #include <SDL2/SDL.h>
+
+#ifdef EMSCRIPTEN
+#include <SDL_ttf.h>
+#else
 #include <SDL2_ttf/SDL_ttf.h>
+#endif
 
 SDL_Surface* Text_Create(TTF_Font *font, const char *text, SDL_Color color)
 {

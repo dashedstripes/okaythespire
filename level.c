@@ -2,7 +2,12 @@
 #include "player.h"
 #include "level.h"
 #include "screen.h"
+
+#ifdef EMSCRIPTEN
+#include <SDL_ttf.h>
+#else
 #include <SDL2_ttf/SDL_ttf.h>
+#endif
 
 int Level_Init(Level *level, Enemy *enemy, Player *player)
 {

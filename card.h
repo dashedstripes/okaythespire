@@ -2,7 +2,12 @@
 #define CARD_H
 
 #include <SDL2/SDL.h>
+
+#ifdef EMSCRIPTEN
+#include <SDL_ttf.h>
+#else
 #include <SDL2_ttf/SDL_ttf.h>
+#endif
 
 #define CARD_WIDTH 150
 #define CARD_HEIGHT 200

@@ -1,11 +1,18 @@
 #include <SDL2/SDL.h>
+
+#ifdef EMSCRIPTEN
+#include <SDL_ttf.h>
+#include <SDL_image.h>
+#else
 #include <SDL2_image/SDL_image.h>
-#include "card.h"
 #include <SDL2_ttf/SDL_ttf.h>
+#endif
+
+#include "card.h"
 #include "text.h"
 #include "screen.h"
 
-int Card_Init(Card *card, int id, enum CardType type, int value, int cost, CardModel *model) 
+int Card_Init(Card *card, int id, enum CardType type, int value, int cost, CardModel *model)
 {
   card->id = id;
   card->type = type;
@@ -15,7 +22,7 @@ int Card_Init(Card *card, int id, enum CardType type, int value, int cost, CardM
   return 0;
 }
 
-void CardModel_Init(CardModel *model) 
+void CardModel_Init(CardModel *model)
 {
   model->x = 0;
   model->y = 0;
@@ -30,14 +37,14 @@ void CardModel_Init(CardModel *model)
   model->moveSpeed = 400;
 }
 
-void Card_Toggle(Card *card, int isActive) 
+void Card_Toggle(Card *card, int isActive)
 {
-  if(!card->model->startY) 
+  if(!card->model->startY)
   {
     card->model->startY = card->model->y;
   }
 
-  if (card->model->isAnimating) 
+  if (card->model->isAnimating)
   {
     return;
   }
@@ -46,32 +53,32 @@ void Card_Toggle(Card *card, int isActive)
   {
     // move card up
     card->model->nextY = card->model->startY - 50;
-  } 
-  else 
+  }
+  else
   {
     // move card down
     card->model->nextY = card->model->startY;
   }
-  
+
   card->model->isAnimating = 1;
 }
 
-void Card_Update(Card *card, float deltaTime) 
+void Card_Update(Card *card, float deltaTime)
 {
-  if (card->model->isAnimating) 
+  if (card->model->isAnimating)
   {
-    if (card->model->y >= card->model->nextY) 
+    if (card->model->y >= card->model->nextY)
     {
       card->model->vy = -card->model->moveSpeed;
-    } 
-    else if (card->model->y <= card->model->nextY) 
+    }
+    else if (card->model->y <= card->model->nextY)
     {
       card->model->vy = card->model->moveSpeed;
     }
 
     card->model->y += card->model->vy * deltaTime;
 
-    if((int)card->model->y == (int)card->model->nextY) 
+    if((int)card->model->y == (int)card->model->nextY)
     {
       card->model->y = card->model->nextY;
       card->model->vy = 0;
@@ -80,7 +87,7 @@ void Card_Update(Card *card, float deltaTime)
   }
 }
 
-void Card_Render(SDL_Renderer *renderer, Card *card, TTF_Font *font) 
+void Card_Render(SDL_Renderer *renderer, Card *card, TTF_Font *font)
 {
   SDL_Rect cardRect = {card->model->x, card->model->y, card->model->w, card->model->h};
   SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
@@ -110,7 +117,7 @@ void Card_Render(SDL_Renderer *renderer, Card *card, TTF_Font *font)
   Text_Render(renderer, manaSurface, card->model->x + CARD_WIDTH - manaSurface->w - 16, card->model->y + CARD_HEIGHT - manaSurface->h - 16);
 }
 
-int Card_Intersect(Card *card, float x, float y) 
+int Card_Intersect(Card *card, float x, float y)
 {
   return (x >= card->model->x && x <= card->model->x + card->model->w &&
           y >= card->model->y + card->model->vy && y <= card->model->y + card->model->vy + card->model->h);
