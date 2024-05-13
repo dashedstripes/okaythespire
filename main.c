@@ -8,6 +8,7 @@
 #include <SDL2/SDL.h>
 
 #ifdef EMSCRIPTEN
+#include <emscripten.h>
 #include <SDL_ttf.h>
 #else
 #include <SDL2_ttf/SDL_ttf.h>
@@ -32,8 +33,8 @@ Level level;
 
 void render_version(SDL_Renderer *renderer, TTF_Font *font)
 {
-  TTF_SetFontSize(font, 12);
-  TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+  // TTF_SetFontSize(font, 12);
+  // TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
   SDL_Surface *versionSurface = Text_Create(font, "v0.0.1", (SDL_Color){255, 255, 255});
   Text_Render(renderer, versionSurface, SCREEN_WIDTH - versionSurface->w - 12, SCREEN_HEIGHT - versionSurface->h - 12);
 }
@@ -42,8 +43,8 @@ void render_fps(SDL_Renderer *renderer, TTF_Font *font, int fps)
 {
   char fpsText[9];
   sprintf(fpsText, "FPS: %d", fps);
-  TTF_SetFontSize(font, 12);
-  TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+  // TTF_SetFontSize(font, 12);
+  // TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
   SDL_Surface *fpsSurface = Text_Create(font, fpsText, (SDL_Color){255, 255, 255});
   Text_Render(renderer, fpsSurface, 12, 12);
 }
@@ -81,6 +82,7 @@ void gameloop() {
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
 
+
   Level_Render(renderer, &level, font);
 
   // render metadata
@@ -104,12 +106,14 @@ void gameloop() {
 int main()
 {
 
+  printf("Initializing SDL...\n");
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
   {
     printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
     return -1;
   }
 
+  printf("Creating window...\n");
   SDL_Window *window = SDL_CreateWindow("okaythespire", SDL_WINDOWPOS_UNDEFINED,
                                         SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
                                         SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
@@ -121,6 +125,7 @@ int main()
     return -1;
   }
 
+  printf("Creating renderer...\n");
   renderer =
       SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
   if (!renderer)
@@ -131,6 +136,7 @@ int main()
     return -1;
   }
 
+  printf("Initializing TTF...\n");
   if (TTF_Init() < 0)
   {
     printf("TTF could not be initialized! SDL Error: %s\n", SDL_GetError());
@@ -218,20 +224,24 @@ int main()
   frames = 0;
   fps = 0;
 
-  while (!quit)
-  {
-    gameloop();
-  }
+  #ifdef EMSCRIPTEN
+    emscripten_set_main_loop(gameloop, 60, 1);
+  #else
+    while (!quit)
+    {
+      gameloop();
+    }
 
-  printf("Quitting...\n");
+    printf("Quitting...\n");
 
-  Deck_Cleanup(&playerDeck);
-  Player_CleanUp(&player);
+    Deck_Cleanup(&playerDeck);
+    Player_CleanUp(&player);
 
-  TTF_Quit();
-  SDL_DestroyRenderer(renderer);
-  SDL_DestroyWindow(window);
-  SDL_Quit();
+    TTF_Quit();
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+  #endif
 
   return 0;
 }

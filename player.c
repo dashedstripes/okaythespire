@@ -174,24 +174,24 @@ int Player_Render(SDL_Renderer *renderer, Player *player, TTF_Font *font)
   // render health
   char healthText[12];
   sprintf(healthText, "Health: %d", player->health);
-  TTF_SetFontSize(font, 24);
-  TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+  // TTF_SetFontSize(font, 24);
+  // TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
   SDL_Surface *healthSurface = Text_Create(font, healthText, (SDL_Color){255, 255, 255});
   Text_Render(renderer, healthSurface, 32, SCREEN_HEIGHT - 192);
 
   // // render energy
   char energyText[8];
   sprintf(energyText, "Mana: %d", player->energy);
-  TTF_SetFontSize(font, 24);
-  TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+  // TTF_SetFontSize(font, 24);
+  // TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
   SDL_Surface *energySurface = Text_Create(font, energyText, (SDL_Color){255, 255, 255});
   Text_Render(renderer, energySurface, 32, SCREEN_HEIGHT - 160);
 
   // render block
   char blockText[12];
   sprintf(blockText, "Block: %d", player->block);
-  TTF_SetFontSize(font, 24);
-  TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+  // TTF_SetFontSize(font, 24);
+  // TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
   SDL_Surface *blockSurface = Text_Create(font, blockText, (SDL_Color){255, 255, 255});
   Text_Render(renderer, blockSurface, 32, SCREEN_HEIGHT - 128);
 

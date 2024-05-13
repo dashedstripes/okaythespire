@@ -97,22 +97,22 @@ void Card_Render(SDL_Renderer *renderer, Card *card, TTF_Font *font)
   char valueText[4];
   sprintf(valueText, "%d", card->value);
 
-  TTF_SetFontSize(font, 48);
+  // TTF_SetFontSize(font, 48);
   TTF_SetFontStyle(font, TTF_STYLE_BOLD);
   SDL_Surface *valueSurface = Text_Create(font, valueText, (SDL_Color){255, 255, 255});
   Text_Render(renderer, valueSurface, card->model->x + ((CARD_WIDTH / 2) - (valueSurface->w / 2)), card->model->y + (CARD_HEIGHT / 2) - (valueSurface->h / 2));
 
   // render type
-  TTF_SetFontSize(font, 16);
-  TTF_SetFontStyle(font, TTF_STYLE_BOLD);
+  // TTF_SetFontSize(font, 16);
+  // TTF_SetFontStyle(font, TTF_STYLE_BOLD);
   SDL_Surface *typeSurface = Text_Create(font, card->type == ATTACK_CARD ? "ATTACK" : "BLOCK", (SDL_Color){255, 255, 255});
   Text_Render(renderer, typeSurface, card->model->x + 16, card->model->y + 16);
 
   // render mana cost
   char manaText[8];
   sprintf(manaText, "%d mana", card->cost);
-  TTF_SetFontSize(font, 16);
-  TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+  // TTF_SetFontSize(font, 16);
+  // TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
   SDL_Surface *manaSurface = Text_Create(font, manaText, (SDL_Color){255, 255, 255});
   Text_Render(renderer, manaSurface, card->model->x + CARD_WIDTH - manaSurface->w - 16, card->model->y + CARD_HEIGHT - manaSurface->h - 16);
 }
