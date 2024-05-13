@@ -65,6 +65,13 @@ void Card_Toggle(Card *card, int isActive)
 
 void Card_Update(Card *card, float deltaTime)
 {
+  if((int)card->model->y == (int)card->model->nextY)
+  {
+    card->model->y = card->model->nextY;
+    card->model->vy = 0;
+    card->model->isAnimating = 0;
+  }
+
   if (card->model->isAnimating)
   {
     if (card->model->y >= card->model->nextY)
@@ -74,15 +81,7 @@ void Card_Update(Card *card, float deltaTime)
     else if (card->model->y <= card->model->nextY)
     {
       card->model->vy = card->model->moveSpeed;
-    }
-
-    if((int)card->model->y == (int)card->model->nextY)
-    {
-      card->model->y = card->model->nextY;
-      card->model->vy = 0;
-      card->model->isAnimating = 0;
-    }
-
+    } 
     card->model->y += card->model->vy * deltaTime;
   }
 }
