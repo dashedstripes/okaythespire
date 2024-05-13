@@ -76,14 +76,14 @@ void Card_Update(Card *card, float deltaTime)
       card->model->vy = card->model->moveSpeed;
     }
 
-    card->model->y += card->model->vy * deltaTime;
-
     if((int)card->model->y == (int)card->model->nextY)
     {
       card->model->y = card->model->nextY;
       card->model->vy = 0;
       card->model->isAnimating = 0;
     }
+
+    card->model->y += card->model->vy * deltaTime;
   }
 }
 
