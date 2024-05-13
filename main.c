@@ -19,6 +19,17 @@
 #include <CoreFoundation/CoreFoundation.h>
 #endif
 
+int quit = 0;
+Uint32 lastTick;
+Uint32 lastTime;
+SDL_Event e;
+int frames;
+int fps;
+
+SDL_Renderer *renderer;
+TTF_Font *font = NULL;
+Level level;
+
 void render_version(SDL_Renderer *renderer, TTF_Font *font)
 {
   TTF_SetFontSize(font, 12);
@@ -35,6 +46,59 @@ void render_fps(SDL_Renderer *renderer, TTF_Font *font, int fps)
   TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
   SDL_Surface *fpsSurface = Text_Create(font, fpsText, (SDL_Color){255, 255, 255});
   Text_Render(renderer, fpsSurface, 12, 12);
+}
+
+void gameloop() {
+  Uint32 currentTick = SDL_GetTicks();
+  float deltaTime = (currentTick - lastTick) / 1000.0f; // time in seconds
+
+  while (SDL_PollEvent(&e) != 0)
+  {
+    switch (e.type)
+    {
+    case SDL_QUIT:
+      quit = 1;
+      break;
+    case SDL_MOUSEBUTTONDOWN:
+      if (e.button.button == SDL_BUTTON_LEFT)
+      {
+        Level_HandleClick(&level, e.button.x, e.button.y);
+      }
+      break;
+    case SDL_KEYDOWN:
+      switch (e.key.keysym.sym)
+      {
+      case SDLK_ESCAPE:
+        quit = 1;
+        break;
+      }
+      break;
+    }
+  }
+
+  Level_Update(&level, deltaTime);
+
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+  SDL_RenderClear(renderer);
+
+  Level_Render(renderer, &level, font);
+
+  // render metadata
+  render_version(renderer, font);
+  render_fps(renderer, font, fps);
+
+  SDL_RenderPresent(renderer);
+  lastTick = currentTick;
+
+  // update FPS
+  frames++;
+
+  if (SDL_GetTicks() - lastTime >= 1000)
+  {
+    fps = frames;
+    frames = 0;
+    lastTime = SDL_GetTicks();
+  }
 }
 
 int main()
@@ -57,7 +121,7 @@ int main()
     return -1;
   }
 
-  SDL_Renderer *renderer =
+  renderer =
       SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
   if (!renderer)
   {
@@ -78,12 +142,7 @@ int main()
 
   SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
-  SDL_Event e;
-  int quit = 0;
-  Uint32 lastTick = SDL_GetTicks();
-
-  // load font from macos bundle
-  TTF_Font *font = NULL;
+  lastTick = SDL_GetTicks();
 
   #ifdef MACOS_BUILD
   CFBundleRef mainBundle = CFBundleGetMainBundle();
@@ -152,67 +211,16 @@ int main()
   Player_AddCard(&player, &cardFive, 4);
 
   // set up a level (i.e a fight):
-
-  Level level;
   Level_Init(&level, &enemy, &player);
 
   // calculate FPS
-  Uint32 lastTime = SDL_GetTicks();
-  int frames = 0;
-  int fps = 0;
+  lastTime = SDL_GetTicks();
+  frames = 0;
+  fps = 0;
 
   while (!quit)
   {
-    Uint32 currentTick = SDL_GetTicks();
-    float deltaTime = (currentTick - lastTick) / 1000.0f; // time in seconds
-
-    while (SDL_PollEvent(&e) != 0)
-    {
-      switch (e.type)
-      {
-      case SDL_QUIT:
-        quit = 1;
-        break;
-      case SDL_MOUSEBUTTONDOWN:
-        if (e.button.button == SDL_BUTTON_LEFT)
-        {
-          Level_HandleClick(&level, e.button.x, e.button.y);
-        }
-        break;
-      case SDL_KEYDOWN:
-        switch (e.key.keysym.sym)
-        {
-        case SDLK_ESCAPE:
-          quit = 1;
-          break;
-        }
-        break;
-      }
-    }
-
-    Level_Update(&level, deltaTime);
-
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
-
-    Level_Render(renderer, &level, font);
-
-    // render metadata
-    render_version(renderer, font);
-    render_fps(renderer, font, fps);
-
-    SDL_RenderPresent(renderer);
-    lastTick = currentTick;
-
-    // update FPS
-    frames++;
-
-    if (SDL_GetTicks() - lastTime >= 1000)
-    {
-      fps = frames;
-      frames = 0;
-      lastTime = SDL_GetTicks();
-    }
+    gameloop();
   }
 
   printf("Quitting...\n");
