@@ -11,6 +11,7 @@
 #include "card.h"
 #include "text.h"
 #include "screen.h"
+#include <math.h>
 
 int Card_Init(Card *card, int id, enum CardType type, int value, int cost, CardModel *model)
 {
