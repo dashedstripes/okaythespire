@@ -6,7 +6,7 @@
 #include "card.h"
 #include "button.h"
 
-int Player_Init(Player *player, Button* button) 
+int Player_Init(Player *player, Button* button)
 {
   player->handCapacity = 5;
   player->handSize = 0;
@@ -24,7 +24,7 @@ void Player_CleanUp(Player *player)
   free(player->hand);
 }
 
-void Player_AddCard(Player *player, Card *card, int index) 
+void Player_AddCard(Player *player, Card *card, int index)
 {
   player->hand[index] = card;
   player->handSize++;
@@ -36,23 +36,23 @@ void Player_AddCard(Player *player, Card *card, int index)
   player->hand[index]->model->y = SCREEN_HEIGHT - CARD_HEIGHT - 20;
 }
 
-void Player_SelectCard(Player *player, int cardIndex) 
+void Player_SelectCard(Player *player, int cardIndex)
 {
-  if(player->hand[cardIndex] == NULL) 
+  if(player->hand[cardIndex] == NULL)
   {
     return;
   }
 
-  if(player->hand[cardIndex] == player->activeCard) 
+  if(player->hand[cardIndex] == player->activeCard)
   {
     Card_Toggle(player->hand[cardIndex], 0);
     player->activeCard = NULL;
   } else {
-    for(int i = 0; i < player->handSize; i++) 
+    for(int i = 0; i < player->handSize; i++)
     {
-      if(player->hand[i] != NULL) 
+      if(player->hand[i] != NULL)
       {
-        if(player->hand[i] != player->hand[cardIndex]) 
+        if(player->hand[i] != player->hand[cardIndex])
         {
           Card_Toggle(player->hand[i], 0);
         }
@@ -60,7 +60,7 @@ void Player_SelectCard(Player *player, int cardIndex)
     }
 
     // if player has enough energy, select the card
-    if(player->hand[cardIndex]->cost <= player->energy) 
+    if(player->hand[cardIndex]->cost <= player->energy)
     {
       player->activeCard = player->hand[cardIndex];
       Card_Toggle(player->activeCard, 1);
@@ -68,18 +68,18 @@ void Player_SelectCard(Player *player, int cardIndex)
   }
 }
 
-void Player_HandleClick(Player *player, int x, int y) 
+void Player_HandleClick(Player *player, int x, int y)
 {
 
   // if the player has no energy, they can't select a card
-  if (player->energy < 1) 
+  if (player->energy < 1)
   {
     return;
   }
 
-  for (int i = 0; i < player->handSize; i++) 
+  for (int i = 0; i < player->handSize; i++)
   {
-    if (player->hand[i] != NULL) 
+    if (player->hand[i] != NULL)
     {
       if(Card_Intersect(player->hand[i], x, y))
       {
@@ -89,9 +89,9 @@ void Player_HandleClick(Player *player, int x, int y)
   }
 }
 
-void Player_UseCard(Player *player, Enemy *enemy) 
+void Player_UseCard(Player *player, Enemy *enemy)
 {
-  if (player->energy < 1) 
+  if (player->energy < 1)
   {
     return;
   }
@@ -119,11 +119,11 @@ void Player_UseCard(Player *player, Enemy *enemy)
   player->energy -= player->activeCard->cost;
 
   // remove card from hand
-  for (int i = 0; i < player->handSize; i++) 
+  for (int i = 0; i < player->handSize; i++)
   {
-    if (player->hand[i] != NULL) 
+    if (player->hand[i] != NULL)
     {
-      if(player->hand[i] == player->activeCard) 
+      if(player->hand[i] == player->activeCard)
       {
         player->hand[i] = NULL;
         player->handSize--;
@@ -133,11 +133,11 @@ void Player_UseCard(Player *player, Enemy *enemy)
   }
 
   // move each card in hand array back by one
-  for (int i = 0; i < player->handCapacity; i++) 
+  for (int i = 0; i < player->handCapacity; i++)
   {
-    if (player->hand[i] == NULL) 
+    if (player->hand[i] == NULL)
     {
-      for (int j = i; j < player->handCapacity; j++) 
+      for (int j = i; j < player->handCapacity; j++)
       {
         player->hand[j] = player->hand[j + 1];
       }
@@ -148,9 +148,9 @@ void Player_UseCard(Player *player, Enemy *enemy)
   int lengthOfAllCards = (player->handSize * CARD_WIDTH) + ((player->handSize - 1) * 20);
   int handStartPosition = (SCREEN_WIDTH - lengthOfAllCards) / 2;
 
-  for (int i = 0; i < player->handSize; i++) 
+  for (int i = 0; i < player->handSize; i++)
   {
-    if (player->hand[i] != NULL) 
+    if (player->hand[i] != NULL)
     {
       player->hand[i]->model->x = handStartPosition + ((i * CARD_WIDTH) + (i * 20) + 20);
       player->hand[i]->model->y = SCREEN_HEIGHT - CARD_HEIGHT - 20;
@@ -158,23 +158,23 @@ void Player_UseCard(Player *player, Enemy *enemy)
   }
 }
 
-void Player_Update(Player *player, float deltaTime) 
+void Player_Update(Player *player, float deltaTime)
 {
-  for (int i = 0; i < player->handSize; i++) 
+  for (int i = 0; i < player->handSize; i++)
   {
-    if (player->hand[i] != NULL) 
+    if (player->hand[i] != NULL)
     {
       Card_Update(player->hand[i], deltaTime);
     }
   }
 }
 
-int Player_Render(SDL_Renderer *renderer, Player *player, TTF_Font *font) 
+int Player_Render(SDL_Renderer *renderer, Player *player, TTF_Font *font)
 {
   // render health
   char healthText[12];
   sprintf(healthText, "Health: %d", player->health);
-  // TTF_SetFontSize(font, 24);
+  TTF_SetFontSize(font, 24);
   TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
   SDL_Surface *healthSurface = Text_Create(font, healthText, (SDL_Color){255, 255, 255});
   Text_Render(renderer, healthSurface, 32, SCREEN_HEIGHT - 192);
@@ -182,7 +182,7 @@ int Player_Render(SDL_Renderer *renderer, Player *player, TTF_Font *font)
   // // render energy
   char energyText[8];
   sprintf(energyText, "Mana: %d", player->energy);
-  // TTF_SetFontSize(font, 24);
+  TTF_SetFontSize(font, 24);
   TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
   SDL_Surface *energySurface = Text_Create(font, energyText, (SDL_Color){255, 255, 255});
   Text_Render(renderer, energySurface, 32, SCREEN_HEIGHT - 160);
@@ -190,15 +190,15 @@ int Player_Render(SDL_Renderer *renderer, Player *player, TTF_Font *font)
   // render block
   char blockText[12];
   sprintf(blockText, "Block: %d", player->block);
-  // TTF_SetFontSize(font, 24);
+  TTF_SetFontSize(font, 24);
   TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
   SDL_Surface *blockSurface = Text_Create(font, blockText, (SDL_Color){255, 255, 255});
   Text_Render(renderer, blockSurface, 32, SCREEN_HEIGHT - 128);
 
   // render hand
-  for (int i = 0; i < player->handSize; i++) 
+  for (int i = 0; i < player->handSize; i++)
   {
-    if (player->hand[i] != NULL) 
+    if (player->hand[i] != NULL)
     {
       Card_Render(renderer, player->hand[i], font);
     }

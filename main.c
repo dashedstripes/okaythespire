@@ -33,7 +33,7 @@ Level level;
 
 void render_version(SDL_Renderer *renderer, TTF_Font *font)
 {
-  // TTF_SetFontSize(font, 12);
+  TTF_SetFontSize(font, 12);
   TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
   SDL_Surface *versionSurface = Text_Create(font, "v0.0.1", (SDL_Color){255, 255, 255});
   Text_Render(renderer, versionSurface, SCREEN_WIDTH - versionSurface->w - 12, SCREEN_HEIGHT - versionSurface->h - 12);
@@ -43,7 +43,7 @@ void render_fps(SDL_Renderer *renderer, TTF_Font *font, int fps)
 {
   char fpsText[9];
   sprintf(fpsText, "FPS: %d", fps);
-  // TTF_SetFontSize(font, 12);
+  TTF_SetFontSize(font, 12);
   TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
   SDL_Surface *fpsSurface = Text_Create(font, fpsText, (SDL_Color){255, 255, 255});
   Text_Render(renderer, fpsSurface, 12, 12);
