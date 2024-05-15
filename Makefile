@@ -6,11 +6,11 @@ compile:
 
 compile-web-prod:
 	mkdir -p web
-	EMSDK_PYTHON=/opt/homebrew/bin/python3 emcc $(SRC) --use-port=sdl2 --use-port=sdl2_image --use-port=sdl2_ttf --preload-file res/OpenSans-Regular.ttf -o web/okaythespire.html --shell-file template/minimal.html
+	EMSDK_PYTHON=/opt/homebrew/bin/python3 emcc $(SRC) --use-port=sdl2 --use-port=sdl2_image --use-port=sdl2_ttf --preload-file res/OpenSans-Regular.ttf -o web/index.html --shell-file template/minimal.html
 
 compile-web-dev:
 	mkdir -p web
-	EMSDK_PYTHON=/opt/homebrew/bin/python3 emcc $(SRC) --use-port=sdl2 --use-port=sdl2_image --use-port=sdl2_ttf --preload-file res/OpenSans-Regular.ttf -o web/okaythespire.html
+	EMSDK_PYTHON=/opt/homebrew/bin/python3 emcc $(SRC) --use-port=sdl2 --use-port=sdl2_image --use-port=sdl2_ttf --preload-file res/OpenSans-Regular.ttf -o web/index.html
 
 compile-mac:
 	$(CC) -DMACOS_BUILD $(SRC) -F /Library/Frameworks -framework CoreFoundation -framework SDL2 -framework SDL2_image -framework SDL2_ttf -o bin/main.out -rpath /Library/Frameworks
